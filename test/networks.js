@@ -32,10 +32,23 @@ describe('networks', function () {
       coins.isBitcoinSV(network) ||
       coins.isLitecoin(network)
     )
+  const zcashTestnetSharedPubkeyPrefix = (network) =>
+    coins.isTestnet(network) &&
+    (
+      coins.isTent(network) ||
+      coins.isZcash(network)
+    )
 
   const bitcoinTestnetSharedScriptPrefix = (network) =>
     bitcoinTestnetSharedPubkeyPrefix(network) &&
     !coins.isLitecoin(network)
+
+  const zcashTestnetSharedScriptPrefix = (network) =>
+    coins.isTestnet(network) &&
+    (
+      coins.isTent(network) ||
+      coins.isZcash(network)
+    )
 
   const bitcoinMainnetSharedWIFPrefix = (network) =>
     coins.isMainnet(network) &&
@@ -44,6 +57,7 @@ describe('networks', function () {
       coins.isBitcoinCash(network) ||
       coins.isBitcoinGold(network) ||
       coins.isBitcoinSV(network) ||
+      coins.isTent(network) ||
       coins.isZcash(network)
     )
 
@@ -157,13 +171,15 @@ describe('networks', function () {
           assert.strictEqual(
             (network.pubKeyHash === otherNetwork.pubKeyHash),
             sameGroup(bitcoinMainnetSharedPubkeyPrefix, network, otherNetwork) ||
-            sameGroup(bitcoinTestnetSharedPubkeyPrefix, network, otherNetwork)
+            sameGroup(bitcoinTestnetSharedPubkeyPrefix, network, otherNetwork) ||
+            sameGroup(zcashTestnetSharedPubkeyPrefix, network, otherNetwork)
           )
 
           assert.strictEqual(
             (network.scriptHash === otherNetwork.scriptHash),
             sameGroup(bitcoinMainnetSharedScriptPrefix, network, otherNetwork) ||
-            sameGroup(bitcoinTestnetSharedScriptPrefix, network, otherNetwork)
+            sameGroup(bitcoinTestnetSharedScriptPrefix, network, otherNetwork) ||
+            sameGroup(zcashTestnetSharedScriptPrefix, network, otherNetwork)
           )
 
           assert.strictEqual(

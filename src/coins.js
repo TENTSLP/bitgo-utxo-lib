@@ -52,6 +52,10 @@ function getMainnet (network) {
     case networks.zcash:
     case networks.zcashTest:
       return networks.zcash
+
+    case networks.tent:
+    case networks.tentTest:
+      return networks.tent
   }
   throw new TypeError(`invalid network`)
 }
@@ -173,6 +177,14 @@ function isZcash (network) {
 
 /**
  * @param {Network} network
+ * @returns {boolean} true iff network is tent or tentTest
+ */
+function isTent (network) {
+  return getMainnet(network) === networks.tent
+}
+
+/**
+ * @param {Network} network
  * @returns {boolean} returns true iff network is any of the network stated in the argument
  */
 const isValidNetwork = typeforce.oneOf(
@@ -182,7 +194,8 @@ const isValidNetwork = typeforce.oneOf(
   isBitcoinSV,
   isDash,
   isLitecoin,
-  isZcash
+  isZcash,
+  isTent
 )
 
 module.exports = {
@@ -193,6 +206,7 @@ module.exports = {
   DASH: networks.dash.coin,
   LTC: networks.litecoin.coin,
   ZEC: networks.zcash.coin,
+  TENT: networks.tent.coin,
 
   getNetworkList,
   getNetworkName,
@@ -210,6 +224,7 @@ module.exports = {
   isDash,
   isLitecoin,
   isZcash,
+  isTent,
 
   isValidNetwork,
   /**
