@@ -49,7 +49,7 @@ describe('Block (tent)', function () {
       })
 
       it('exports ' + f.description, function () {
-        assert.strictEqual(block.toHex(true), f.hex.slice(0, Block.ZCASH_HEADER_BYTE_SIZE * 2))
+        assert.strictEqual(block.toHex(true), f.hex.slice(0, Block.ZCASH_TENT_HEADER_BYTE_SIZE * 2))
         assert.strictEqual(block.toHex(), f.hex)
       })
     })

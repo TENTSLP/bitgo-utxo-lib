@@ -37,7 +37,7 @@ function fromBech32 (address) {
 function toBase58Check (hash, version) {
   typeforce(types.tuple(types.Hash160bit, types.UInt16), arguments)
 
-  // Zcash adds an extra prefix resulting in a bigger (22 bytes) payload. We identify them Zcash by checking if the
+  // Tent/Zcash adds an extra prefix resulting in a bigger (22 bytes) payload. We identify them Tent/Zcash by checking if the
   // version is multibyte (2 bytes instead of 1)
   var multibyte = version > 0xff
   var size = multibyte ? 22 : 21

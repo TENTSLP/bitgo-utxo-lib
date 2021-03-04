@@ -20,7 +20,7 @@ function Block (network) {
   this.bits = 0
   this.nonce = 0
   this.network = network
-  if (coins.isZcash(network)) {
+  if (coins.isZcash(network) || coins.isTent(network)) {
     this.finalSaplingRoot = null
     this.solutionSize = 0
     this.solution = null
@@ -28,7 +28,7 @@ function Block (network) {
 }
 
 Block.HEADER_BYTE_SIZE = 80
-Block.ZCASH_HEADER_BYTE_SIZE = 1487
+Block.ZCASH_TENT_HEADER_BYTE_SIZE = 1487
 
 Block.fromBuffer = function (buffer, network) {
   if (buffer.length < 80) throw new Error('Buffer too small (< 80 bytes)')
@@ -40,12 +40,12 @@ Block.fromBuffer = function (buffer, network) {
   block.version = bufferReader.readInt32()
   block.prevHash = bufferReader.readSlice(32)
   block.merkleRoot = bufferReader.readSlice(32)
-  if (coins.isZcash(network)) {
+  if (coins.isZcash(network) || coins.isTent(network)) {
     block.finalSaplingRoot = bufferReader.readSlice(32)
   }
   block.timestamp = bufferReader.readUInt32()
   block.bits = bufferReader.readUInt32()
-  if (coins.isZcash(network)) {
+  if (coins.isZcash(network) || coins.isTent(network)) {
     block.nonce = bufferReader.readSlice(32)
     block.solutionSize = bufferReader.readVarInt()
     block.solution = bufferReader.readSlice(block.solutionSize)
@@ -74,11 +74,11 @@ Block.fromBuffer = function (buffer, network) {
 }
 
 Block.prototype.byteLength = function (headersOnly) {
-  if (coins.isZcash(this.network)) {
+  if (coins.isZcash(this.network) || coins.isTent(this.network)) {
     if (headersOnly) {
-      return Block.ZCASH_HEADER_BYTE_SIZE
+      return Block.ZCASH_TENT_HEADER_BYTE_SIZE
     }
-    return Block.ZCASH_HEADER_BYTE_SIZE +
+    return Block.ZCASH_TENT_HEADER_BYTE_SIZE +
       varuint.encodingLength(this.transactions.length) + this.transactions.reduce(function (a, x) {
         return a + x.byteLength()
       }, 0)
@@ -119,12 +119,12 @@ Block.prototype.toBuffer = function (headersOnly) {
   bufferWriter.writeInt32(this.version)
   bufferWriter.writeSlice(this.prevHash)
   bufferWriter.writeSlice(this.merkleRoot)
-  if (coins.isZcash(this.network)) {
+  if (coins.isZcash(this.network) || coins.isTent(this.network)) {
     bufferWriter.writeSlice(this.finalSaplingRoot)
   }
   bufferWriter.writeUInt32(this.timestamp)
   bufferWriter.writeUInt32(this.bits)
-  if (coins.isZcash(this.network)) {
+  if (coins.isZcash(this.network) || coins.isTent(this.network)) {
     bufferWriter.writeSlice(this.nonce)
     // TODO: use writeVarInt
     varuint.encode(this.solutionSize, bufferWriter.buffer, bufferWriter.offset)
