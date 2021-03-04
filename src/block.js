@@ -48,7 +48,7 @@ Block.fromBuffer = function (buffer, network) {
   if (coins.isZcash(network)) {
     block.nonce = bufferReader.readSlice(32)
     block.solutionSize = bufferReader.readVarInt()
-    block.solution = bufferReader.readSlice(1344)
+    block.solution = bufferReader.readSlice(block.solutionSize)
   } else {
     // Not sure sure why the nonce is read as UInt 32 and not as a slice
     block.nonce = bufferReader.readUInt32()

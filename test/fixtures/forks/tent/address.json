@@ -1,0 +1,18 @@
+{
+  "standard": [
+    {
+      "network": "tent",
+      "version": 7352,
+      "hash": "4AA877EF786E53288BDE140170200D4459F6B81F",
+      "base58check": "s1U1W3Hpkp9VgbHAsgYjSeyQsxpc6S9C38p",
+      "script": "OP_DUP OP_HASH160 4AA877EF786E53288BDE140170200D4459F6B81F OP_EQUALVERIFY OP_CHECKSIG"
+    },
+    {
+      "network": "tentTest",
+      "version": 7461,
+      "hash": "4AA877EF786E53288BDE140170200D4459F6B81F",
+      "base58check": "tmGX79mEeSnjMVwSnsh15LhGvCSnkHF9bbL",
+      "script": "OP_DUP OP_HASH160 4AA877EF786E53288BDE140170200D4459F6B81F OP_EQUALVERIFY OP_CHECKSIG"
+    }
+  ]
+}
