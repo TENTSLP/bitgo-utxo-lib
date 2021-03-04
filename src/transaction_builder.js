@@ -204,6 +204,12 @@ function fixMultisigOrder (input, transaction, vin, value, network) {
         case coins.BTG:
           hash = transaction.hashForGoldSignature(vin, input.signScript, value, parsed.hashType)
           break
+        case coins.TENT:
+          if (value === undefined) {
+            return false
+          }
+          hash = transaction.hashForTentSignature(vin, input.signScript, value, parsed.hashType)
+          break
         case coins.ZEC:
           if (value === undefined) {
             return false
@@ -525,12 +531,18 @@ TransactionBuilder.prototype.setVersion = function (version, overwinter = true) 
     }
     this.tx.overwintered = (overwinter ? 1 : 0)
   }
+  if (coins.isTent(this.network)) {
+    if (!this.network.consensusBranchId.hasOwnProperty(this.tx.version)) {
+      throw new Error('Unsupported Tent transaction')
+    }
+    this.tx.overwintered = (overwinter ? 1 : 0)
+  }
   this.tx.version = version
 }
 
 TransactionBuilder.prototype.setVersionGroupId = function (versionGroupId) {
-  if (!(coins.isZcash(this.network) && this.tx.isOverwinterCompatible())) {
-    throw new Error('expiryHeight can only be set for Zcash starting at overwinter version. Current network coin: ' +
+  if (!(coins.isZcash(this.network) || coins.isTent(this.network)) && this.tx.isOverwinterCompatible()) {
+    throw new Error('expiryHeight can only be set for Zcash or Tent starting at overwinter version. Current network coin: ' +
       this.network.coin + ', version: ' + this.tx.version)
   }
   typeforce(types.UInt32, versionGroupId)
@@ -538,8 +550,8 @@ TransactionBuilder.prototype.setVersionGroupId = function (versionGroupId) {
 }
 
 TransactionBuilder.prototype.setExpiryHeight = function (expiryHeight) {
-  if (!(coins.isZcash(this.network) && this.tx.isOverwinterCompatible())) {
-    throw new Error('expiryHeight can only be set for Zcash starting at overwinter version. Current network coin: ' +
+  if (!(coins.isZcash(this.network) || coins.isTent(this.network)) && this.tx.isOverwinterCompatible()) {
+    throw new Error('expiryHeight can only be set for Zcash or Tent starting at overwinter version. Current network coin: ' +
       this.network.coin + ', version: ' + this.tx.version)
   }
   typeforce(types.UInt32, expiryHeight)
@@ -814,6 +826,9 @@ TransactionBuilder.prototype.sign = function (vin, keyPair, redeemScript, hashTy
   } else if (coins.isBitcoinCash(this.network) || coins.isBitcoinSV(this.network)) {
     signatureHash = this.tx.hashForCashSignature(vin, input.signScript, witnessValue, hashType)
     debug('Calculated BCH sighash (%s)', signatureHash.toString('hex'))
+  } else if (coins.isTent(this.network)) {
+    signatureHash = this.tx.hashForTentSignature(vin, input.signScript, witnessValue, hashType)
+    debug('Calculated TENT sighash (%s)', signatureHash.toString('hex'))
   } else if (coins.isZcash(this.network)) {
     signatureHash = this.tx.hashForZcashSignature(vin, input.signScript, witnessValue, hashType)
     debug('Calculated ZEC sighash (%s)', signatureHash.toString('hex'))

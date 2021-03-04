@@ -2,6 +2,7 @@ var Buffer = require('safe-buffer').Buffer
 var bcrypto = require('./crypto')
 var bscript = require('./script')
 var { BufferReader, BufferWriter } = require('./bufferutils')
+var { TentBufferReader, TentBufferWriter } = require('./forks/tent/bufferutils')
 var { ZcashBufferReader, ZcashBufferWriter } = require('./forks/zcash/bufferutils')
 var coins = require('./coins')
 var opcodes = require('bitcoin-ops')
@@ -34,7 +35,7 @@ function Transaction (network = networks.bitcoin) {
   this.ins = []
   this.outs = []
   this.network = network
-  if (coins.isZcash(network)) {
+  if (coins.isZcash(network) || coins.isTent(network)) {
     // ZCash version >= 2
     this.joinsplits = []
     this.joinsplitPubkey = []
@@ -98,6 +99,20 @@ Transaction.fromBuffer = function (buffer, network = networks.bitcoin, __noStric
       throw new Error('Unsupported Zcash transaction')
     }
     bufferReader = new ZcashBufferReader(
+      bufferReader.buffer,
+      bufferReader.offset,
+      tx.version,
+    )
+  }
+
+  if (coins.isTent(network)) {
+    // Split the header into fOverwintered and nVersion
+    tx.overwintered = tx.version >>> 31  // Must be 1 for version 3 and up
+    tx.version = tx.version & 0x07FFFFFFF  // 3 for overwinter
+    if (!network.consensusBranchId.hasOwnProperty(tx.version)) {
+      throw new Error('Unsupported Zcash transaction')
+    }
+    bufferReader = new TentBufferReader(
       bufferReader.buffer,
       bufferReader.offset,
       tx.version,
@@ -656,6 +671,92 @@ Transaction.prototype.getOutputsHash = function (hashType, inIndex) {
 }
 
 /**
+ * Hash transaction for signing a transparent transaction in Tent. Protected transactions are not supported.
+ * @param inIndex
+ * @param prevOutScript
+ * @param value
+ * @param hashType
+ * @returns double SHA-256 or 256-bit BLAKE2b hash
+ */
+Transaction.prototype.hashForTentSignature = function (inIndex, prevOutScript, value, hashType) {
+  typeforce(types.tuple(types.UInt32, types.Buffer, types.Satoshi, types.UInt32), arguments)
+  if (!coins.isTent(this.network)) {
+    throw new Error('hashForTentSignature can only be called when using Tent network')
+  }
+  if (this.joinsplits.length > 0) {
+    throw new Error('Hash signature for Tent protected transactions is not supported')
+  }
+
+  if (inIndex >= this.ins.length && inIndex !== VALUE_UINT64_MAX) {
+    throw new Error('Input index is out of range')
+  }
+
+  if (this.isOverwinterCompatible()) {
+    var hashPrevouts = this.getPrevoutHash(hashType)
+    var hashSequence = this.getSequenceHash(hashType)
+    var hashOutputs = this.getOutputsHash(hashType, inIndex)
+    var hashJoinSplits = ZERO
+    var hashShieldedSpends = ZERO
+    var hashShieldedOutputs = ZERO
+
+    var bufferWriter
+    var baseBufferSize = 0
+    baseBufferSize += 4 * 5  // header, nVersionGroupId, lock_time, nExpiryHeight, hashType
+    baseBufferSize += 32 * 4  // 256 hashes: hashPrevouts, hashSequence, hashOutputs, hashJoinSplits
+    if (inIndex !== VALUE_UINT64_MAX) {
+      // If this hash is for a transparent input signature (i.e. not for txTo.joinSplitSig), we need extra space
+      baseBufferSize += 4 * 2  // input.index, input.sequence
+      baseBufferSize += 8  // value
+      baseBufferSize += 32  // input.hash
+      baseBufferSize += varSliceSize(prevOutScript)  // prevOutScript
+    }
+    if (this.isSaplingCompatible()) {
+      baseBufferSize += 32 * 2  // hashShieldedSpends and hashShieldedOutputs
+      baseBufferSize += 8  // valueBalance
+    }
+    bufferWriter = new BufferWriter(Buffer.alloc(baseBufferSize))
+
+    bufferWriter.writeInt32(this.getHeader())
+    bufferWriter.writeUInt32(this.versionGroupId)
+    bufferWriter.writeSlice(hashPrevouts)
+    bufferWriter.writeSlice(hashSequence)
+    bufferWriter.writeSlice(hashOutputs)
+    bufferWriter.writeSlice(hashJoinSplits)
+    if (this.isSaplingCompatible()) {
+      bufferWriter.writeSlice(hashShieldedSpends)
+      bufferWriter.writeSlice(hashShieldedOutputs)
+    }
+    bufferWriter.writeUInt32(this.locktime)
+    bufferWriter.writeUInt32(this.expiryHeight)
+    if (this.isSaplingCompatible()) {
+      bufferWriter.writeUInt64(this.valueBalance)
+    }
+    bufferWriter.writeUInt32(hashType)
+
+    // If this hash is for a transparent input signature (i.e. not for txTo.joinSplitSig):
+    if (inIndex !== VALUE_UINT64_MAX) {
+      // The input being signed (replacing the scriptSig with scriptCode + amount)
+      // The prevout may already be contained in hashPrevout, and the nSequence
+      // may already be contained in hashSequence.
+      var input = this.ins[inIndex]
+      bufferWriter.writeSlice(input.hash)
+      bufferWriter.writeUInt32(input.index)
+      bufferWriter.writeVarSlice(prevOutScript)
+      bufferWriter.writeUInt64(value)
+      bufferWriter.writeUInt32(input.sequence)
+    }
+
+    var personalization = Buffer.alloc(16)
+    var prefix = 'TentSigHash'
+    personalization.write(prefix)
+    personalization.writeUInt32LE(this.network.consensusBranchId[this.version], prefix.length)
+
+    return this.getBlake2bHash(bufferWriter.buffer, personalization)
+  }
+  // TODO: support non overwinter transactions
+}
+
+/**
  * Hash transaction for signing a transparent transaction in Zcash. Protected transactions are not supported.
  * @param inIndex
  * @param prevOutScript
@@ -832,9 +933,15 @@ Transaction.prototype.toBuffer = function (buffer, initialOffset) {
 Transaction.prototype.__toBuffer = function (buffer, initialOffset, __allowWitness) {
   if (!buffer) buffer = Buffer.allocUnsafe(this.__byteLength(__allowWitness))
 
-  const bufferWriter = coins.isZcash(this.network)
-    ? new ZcashBufferWriter(buffer, initialOffset || 0)
-    : new BufferWriter(buffer, initialOffset || 0)
+  let bufferWriter
+
+  if (coins.isZcash(this.network)) {
+    bufferWriter = new ZcashBufferWriter(buffer, initialOffset || 0)
+  } else if (coins.isTent(this.network)) {
+    bufferWriter = new TentBufferWriter(buffer, initialOffset || 0)
+  } else {
+    bufferWriter = new BufferWriter(buffer, initialOffset || 0)
+  }
 
   function writeUInt16 (i) {
     bufferWriter.offset = bufferWriter.buffer.writeUInt16LE(i, bufferWriter.offset)

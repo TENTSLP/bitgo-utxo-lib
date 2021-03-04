@@ -13,7 +13,7 @@ var Transaction = require('../src/transaction')
 var TransactionBuilder = require('../src/transaction_builder')
 var NETWORKS = require('../src/networks')
 
-var fixtures = require('./fixtures').combine('transaction_builder', ['dash', 'zcash'])
+var fixtures = require('./fixtures').combine('transaction_builder', ['dash', 'zcash', 'tent'])
 
 function construct (f, dontSign) {
   var network = NETWORKS[f.network]
@@ -157,7 +157,7 @@ describe('TransactionBuilder', function () {
     })
   })
 
-  var networksToTest = ['bitcoin', 'bitcoincash', 'bitcoingold', 'bitcoinsv', 'dash', 'litecoin', 'zcash']
+  var networksToTest = ['bitcoin', 'bitcoincash', 'bitcoingold', 'bitcoinsv', 'dash', 'litecoin', 'zcash', 'tent']
   networksToTest.forEach(function (network) {
     describe('addInput for ' + network, function () {
       var testNetwork = NETWORKS[network]
@@ -165,7 +165,7 @@ describe('TransactionBuilder', function () {
       var testKeyPair = new ECPair(BigInteger.ONE, undefined, { network: testNetwork })
       beforeEach(function () {
         txb = new TransactionBuilder(testNetwork)
-        if (coins.isZcash(testNetwork)) {
+        if (coins.isZcash(testNetwork) || coins.isTent(testNetwork)) {
           txb.setVersion(3)
         }
       })
@@ -230,7 +230,7 @@ describe('TransactionBuilder', function () {
       var testKeyPair = new ECPair(BigInteger.ONE, undefined, { network: testNetwork })
       beforeEach(function () {
         txb = new TransactionBuilder(testNetwork)
-        if (coins.isZcash(testNetwork)) {
+        if (coins.isZcash(testNetwork) || coins.isTent(testNetwork)) {
           txb.setVersion(3)
         }
       })

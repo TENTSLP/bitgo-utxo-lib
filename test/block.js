@@ -3,7 +3,7 @@
 var assert = require('assert')
 var Block = require('../src/block')
 
-var fixtures = require('./fixtures').combine('block', ['zcash'])
+var fixtures = require('./fixtures').combine('block', ['zcash', 'tent'])
 
 describe('Block', function () {
   describe('version', function () {
