@@ -12,6 +12,7 @@ var types = require('./types')
 var varuint = require('varuint-bitcoin')
 var blake2b = require('blake2b')
 
+var tentVersion = require('./forks/tent/version')
 var zcashVersion = require('./forks/zcash/version')
 
 function varSliceSize (someScript) {
@@ -91,6 +92,20 @@ Transaction.fromBuffer = function (buffer, network = networks.bitcoin, __noStric
   let tx = new Transaction(network)
   tx.version = bufferReader.readInt32()
 
+  if (coins.isTent(network)) {
+    // Split the header into fOverwintered and nVersion
+    tx.overwintered = tx.version >>> 31  // Must be 1 for version 3 and up
+    tx.version = tx.version & 0x07FFFFFFF  // 3 for overwinter
+    if (!network.consensusBranchId.hasOwnProperty(tx.version)) {
+      throw new Error('Unsupported Tent transaction')
+    }
+    bufferReader = new TentBufferReader(
+      bufferReader.buffer,
+      bufferReader.offset,
+      tx.version,
+    )
+  }
+
   if (coins.isZcash(network)) {
     // Split the header into fOverwintered and nVersion
     tx.overwintered = tx.version >>> 31  // Must be 1 for version 3 and up
@@ -99,20 +114,6 @@ Transaction.fromBuffer = function (buffer, network = networks.bitcoin, __noStric
       throw new Error('Unsupported Zcash transaction')
     }
     bufferReader = new ZcashBufferReader(
-      bufferReader.buffer,
-      bufferReader.offset,
-      tx.version,
-    )
-  }
-
-  if (coins.isTent(network)) {
-    // Split the header into fOverwintered and nVersion
-    tx.overwintered = tx.version >>> 31  // Must be 1 for version 3 and up
-    tx.version = tx.version & 0x07FFFFFFF  // 3 for overwinter
-    if (!network.consensusBranchId.hasOwnProperty(tx.version)) {
-      throw new Error('Unsupported Zcash transaction')
-    }
-    bufferReader = new TentBufferReader(
       bufferReader.buffer,
       bufferReader.offset,
       tx.version,
@@ -133,7 +134,7 @@ Transaction.fromBuffer = function (buffer, network = networks.bitcoin, __noStric
   var hasWitnesses = false
   if (marker === Transaction.ADVANCED_TRANSACTION_MARKER &&
       flag === Transaction.ADVANCED_TRANSACTION_FLAG &&
-      !coins.isZcash(network)) {
+      !(coins.isZcash(network) || coins.isTent(network))) {
     hasWitnesses = true
   } else {
     bufferReader.offset -= 2
@@ -173,7 +174,7 @@ Transaction.fromBuffer = function (buffer, network = networks.bitcoin, __noStric
 
   tx.locktime = bufferReader.readUInt32()
 
-  if (coins.isZcash(network)) {
+  if (coins.isZcash(network) || coins.isTent(network)) {
     if (tx.isOverwinterCompatible()) {
       tx.expiryHeight = bufferReader.readUInt32()
     }
@@ -233,14 +234,23 @@ Transaction.isCoinbaseHash = function (buffer) {
 }
 
 Transaction.prototype.isSaplingCompatible = function () {
+  if (this.network === networks.tent) {
+    return coins.isTent(this.network) && this.version >= tentVersion.SAPLING
+  }
   return coins.isZcash(this.network) && this.version >= zcashVersion.SAPLING
 }
 
 Transaction.prototype.isOverwinterCompatible = function () {
+  if (this.network === networks.tent) {
+    return coins.isTent(this.network) && this.version >= tentVersion.OVERWINTER
+  }
   return coins.isZcash(this.network) && this.version >= zcashVersion.OVERWINTER
 }
 
 Transaction.prototype.supportsJoinSplits = function () {
+  if (this.network === networks.tent) {
+    return coins.isTent(this.network) && this.version >= tentVersion.JOINSPLITS_SUPPORT
+  }
   return coins.isZcash(this.network) && this.version >= zcashVersion.JOINSPLITS_SUPPORT
 }
 
@@ -353,6 +363,38 @@ Transaction.prototype.getJoinSplitByteLength = function () {
   return byteLength
 }
 
+Transaction.prototype.tentTransactionByteLength = function () {
+  if (!coins.isTent(this.network)) {
+    throw new Error('tentTransactionByteLength can only be called when using Tent network')
+  }
+  var byteLength = 0
+  byteLength += 4  // Header
+  if (this.isOverwinterCompatible()) {
+    byteLength += 4  // nVersionGroupId
+  }
+  byteLength += varuint.encodingLength(this.ins.length)  // tx_in_count
+  byteLength += this.ins.reduce(function (sum, input) { return sum + 40 + varSliceSize(input.script) }, 0)  // tx_in
+  byteLength += varuint.encodingLength(this.outs.length)  // tx_out_count
+  byteLength += this.outs.reduce(function (sum, output) { return sum + 8 + varSliceSize(output.script) }, 0)  // tx_out
+  byteLength += 4  // lock_time
+  if (this.isOverwinterCompatible()) {
+    byteLength += 4  // nExpiryHeight
+  }
+  if (this.isSaplingCompatible()) {
+    byteLength += 8  // valueBalance
+    byteLength += this.getShieldedSpendByteLength()
+    byteLength += this.getShieldedOutputByteLength()
+  }
+  if (this.supportsJoinSplits()) {
+    byteLength += this.getJoinSplitByteLength()
+  }
+  if (this.isSaplingCompatible() &&
+    this.vShieldedSpend.length + this.vShieldedOutput.length > 0) {
+    byteLength += 64  // bindingSig
+  }
+  return byteLength
+}
+
 Transaction.prototype.zcashTransactionByteLength = function () {
   if (!coins.isZcash(this.network)) {
     throw new Error('zcashTransactionByteLength can only be called when using Zcash network')
@@ -387,6 +429,10 @@ Transaction.prototype.zcashTransactionByteLength = function () {
 
 Transaction.prototype.__byteLength = function (__allowWitness) {
   var hasWitnesses = __allowWitness && this.hasWitnesses()
+
+  if (coins.isTent(this.network)) {
+    return this.tentTransactionByteLength()
+  }
 
   if (coins.isZcash(this.network)) {
     return this.zcashTransactionByteLength()
@@ -491,7 +537,7 @@ Transaction.prototype.clone = function () {
 }
 
 /**
- * Get Zcash header or version
+ * Get Tent/Zcash header or version
  * @returns {number}
  */
 Transaction.prototype.getHeader = function () {
@@ -574,7 +620,7 @@ Transaction.prototype.hashForSignature = function (inIndex, prevOutScript, hashT
 }
 
 /**
- * Blake2b hashing algorithm for Zcash
+ * Blake2b hashing algorithm for Tent/Zcash
  * @param bufferToHash
  * @param personalization
  * @returns 256-bit BLAKE2b hash
@@ -598,6 +644,9 @@ Transaction.prototype.getPrevoutHash = function (hashType) {
       bufferWriter.writeUInt32(txIn.index)
     })
 
+    if (coins.isTent(this.network)) {
+      return this.getBlake2bHash(bufferWriter.buffer, 'Tent_PrevoutHash')
+    }
     if (coins.isZcash(this.network)) {
       return this.getBlake2bHash(bufferWriter.buffer, 'ZcashPrevoutHash')
     }
@@ -620,7 +669,9 @@ Transaction.prototype.getSequenceHash = function (hashType) {
     this.ins.forEach(function (txIn) {
       bufferWriter.writeUInt32(txIn.sequence)
     })
-
+    if (coins.isTent(this.network)) {
+      return this.getBlake2bHash(bufferWriter.buffer, 'TentSequenceHash')
+    }
     if (coins.isZcash(this.network)) {
       return this.getBlake2bHash(bufferWriter.buffer, 'ZcashSequencHash')
     }
@@ -649,7 +700,9 @@ Transaction.prototype.getOutputsHash = function (hashType, inIndex) {
       bufferWriter.writeUInt64(out.value)
       bufferWriter.writeVarSlice(out.script)
     })
-
+    if (coins.isTent(this.network)) {
+      return this.getBlake2bHash(bufferWriter.buffer, 'Tent_OutputsHash')
+    }
     if (coins.isZcash(this.network)) {
       return this.getBlake2bHash(bufferWriter.buffer, 'ZcashOutputsHash')
     }
@@ -662,6 +715,9 @@ Transaction.prototype.getOutputsHash = function (hashType, inIndex) {
     bufferWriter.writeUInt64(output.value)
     bufferWriter.writeVarSlice(output.script)
 
+    if (coins.isTent(this.network)) {
+      return this.getBlake2bHash(bufferWriter.buffer, 'Tent_OutputsHash')
+    }
     if (coins.isZcash(this.network)) {
       return this.getBlake2bHash(bufferWriter.buffer, 'ZcashOutputsHash')
     }
