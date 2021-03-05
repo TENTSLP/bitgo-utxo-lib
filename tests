@@ -20,8 +20,8 @@
       ✓ decodes LUxXFcwXFPpRZdMv4aYu6bDwPdC2skQ5YW
       ✓ decodes mrCDrCybB6J1vRfbwM5hemdJz73FwDBC8r
       ✓ decodes 2NByiBUaEXrhmqAsg7BbLpcQSAQs1EDwt5w
-      1) decodes s1U1W3Hpkp9VgbHAsgYjSeyQsxpc6S9C38p
-      2) decodes tmGX79mEeSnjMVwSnsh15LhGvCSnkHF9bbL
+      ✓ decodes s1U1W3Hpkp9VgbHAsgYjSeyQsxpc6S9C38p
+      ✓ decodes tmGX79mEeSnjMVwSnsh15LhGvCSnkHF9bbL
       ✓ decodes t1UYsZVJkLPeMjxEtACvSxfWuNmddpWfxzs
       ✓ decodes tmLPctKo9j49rtCSKpwEBpLBeykiTGomGQs
       ✓ throws on is too short
@@ -51,8 +51,8 @@
       ✓ encodes OP_0 19dbdd4c630a1265b8bd49055... (litecoin)
       ✓ encodes OP_0 6d1db7c574b61bc0cb8405249... (litecoin)
       ✓ encodes OP_0 079225c736a65198b0aa75de0... (litecoinTest)
-      ✓ encodes OP_DUP OP_HASH160 4AA877EF786E... (tent)
-      ✓ encodes OP_DUP OP_HASH160 4AA877EF786E... (tentTest)
+      ✓ encodes OP_DUP OP_HASH160 4aa877ef786e... (tent)
+      ✓ encodes OP_DUP OP_HASH160 4aa877ef786e... (tentTest)
       ✓ encodes OP_DUP OP_HASH160 751e76e81991... (zcash)
       ✓ encodes OP_DUP OP_HASH160 751e76e81991... (zcashTest)
       ✓ throws when 031f1e68f82112b373f0fe980b3a89... has no matching Address
@@ -67,8 +67,8 @@
       ✓ encodes 6ac624143d19a3c91d2ac5605f0aebdfeac5b826 (litecoin)
       ✓ encodes 751e76e8199196d454941c45d1b3a323f1433bd6 (testnet)
       ✓ encodes cd7b44d0b03f2d026d1e586d7ae18903b0d385f6 (testnet)
-      3) encodes 4AA877EF786E53288BDE140170200D4459F6B81F (tent)
-      ✓ encodes 4AA877EF786E53288BDE140170200D4459F6B81F (tentTest)
+      ✓ encodes 4aa877ef786e53288bde140170200d4459f6b81f (tent)
+      ✓ encodes 4aa877ef786e53288bde140170200d4459f6b81f (tentTest)
       ✓ encodes 751e76e8199196d454941c45d1b3a323f1433bd6 (zcash)
       ✓ encodes 751e76e8199196d454941c45d1b3a323f1433bd6 (zcashTest)
     toOutputScript
@@ -84,8 +84,8 @@
       ✓ decodes OP_0 19dbdd4c630a1265b8bd49055... (litecoin)
       ✓ decodes OP_0 6d1db7c574b61bc0cb8405249... (litecoin)
       ✓ decodes OP_0 079225c736a65198b0aa75de0... (litecoinTest)
-      4) decodes OP_DUP OP_HASH160 4AA877EF786E... (tent)
-      5) decodes OP_DUP OP_HASH160 4AA877EF786E... (tentTest)
+      ✓ decodes OP_DUP OP_HASH160 4aa877ef786e... (tent)
+      ✓ decodes OP_DUP OP_HASH160 4aa877ef786e... (tentTest)
       ✓ decodes OP_DUP OP_HASH160 751e76e81991... (zcash)
       ✓ decodes OP_DUP OP_HASH160 751e76e81991... (zcashTest)
       ✓ throws when has no matching Script
@@ -1140,7 +1140,7 @@
       ✓ produces the expected k values for 2SaVPvhxkAPrayIVKcsoQO5DKA8Uv5X/esZFlf+y if k wasn't suitable
       ✓ produces the expected k values for 00A0OwO2THi7j5Z/jp0FmN6nn7N/DQd6eBnCS+/b if k wasn't suitable
     sign
-      ✓ produces a deterministic signature for "Everything should be made as simple as possible, but not simpler." (80ms)
+      ✓ produces a deterministic signature for "Everything should be made as simple as possible, but not simpler." (60ms)
       ✓ produces a deterministic signature for "Equations are more important to me, because politics is for the present, but an equation is something for eternity."
       ✓ produces a deterministic signature for "Not only is the Universe stranger than we think, it is stranger than we can think."
       ✓ produces a deterministic signature for "How wonderful that we have met with a paradox. Now we have some hope of making progress."
@@ -1149,12 +1149,12 @@
       ✓ produces a deterministic signature for "The question of whether computers can think is like the question of whether submarines can swim."
       ✓ should sign with low S value
     verify
-      ✓ verifies a valid signature for "Everything should be made as simple as possible, but not simpler." (39ms)
+      ✓ verifies a valid signature for "Everything should be made as simple as possible, but not simpler." (41ms)
       ✓ verifies a valid signature for "Equations are more important to me, because politics is for the present, but an equation is something for eternity."
       ✓ verifies a valid signature for "Not only is the Universe stranger than we think, it is stranger than we can think."
       ✓ verifies a valid signature for "How wonderful that we have met with a paradox. Now we have some hope of making progress."
-      ✓ verifies a valid signature for "Computer science is no more about computers than astronomy is about telescopes." (53ms)
-      ✓ verifies a valid signature for "...if you aren't, at any given time, scandalized by code you wrote five or even three years ago, you're not learning anywhere near enough" (40ms)
+      ✓ verifies a valid signature for "Computer science is no more about computers than astronomy is about telescopes." (44ms)
+      ✓ verifies a valid signature for "...if you aren't, at any given time, scandalized by code you wrote five or even three years ago, you're not learning anywhere near enough"
       ✓ verifies a valid signature for "The question of whether computers can think is like the question of whether submarines can swim."
       ✓ fails to verify with The wrong signature
       ✓ fails to verify with Invalid r value (< 0)
@@ -1251,7 +1251,7 @@
     ecdsa wrappers
       signing
         ✓ wraps ecdsa.sign
-        ✓ wraps fastcurve.sign (42ms)
+        ✓ wraps fastcurve.sign
         ✓ throws if no private key is found
       verify
         ✓ wraps ecdsa.verify
@@ -1364,21 +1364,33 @@
 
   Block (tent)
     fromBuffer/fromHex
-      6) imports Tent Sapling 1
-      7) imports Tent Sapling 2
+      ✓ imports Tent Sapling 1
+      ✓ imports Tent Sapling 2
       ✓ imports Tent Sapling Genesis block
     toBuffer/toHex
-      8) "before each" hook for "exports Tent Sapling 1"
+      ✓ exports Tent Sapling 1
+      ✓ exports Tent Sapling 2
+      ✓ exports Tent Sapling Genesis block
     getHash/getId
-      9) "before each" hook for "returns 0017d064ad1e2c9bb5e8544872a5d35c71e6bcf5502dc8f61266792bf4581feb for Tent Sapling 1"
+      ✓ returns 0017d064ad1e2c9bb5e8544872a5d35c71e6bcf5502dc8f61266792bf4581feb for Tent Sapling 1
+      ✓ returns 000003da15493ba3a837f75f7cdde83a2a28249149a78727342f7bde0f251cc8 for Tent Sapling 2
+      ✓ returns 05a60a92d99d85997cce3b87616c089f6124d7342af37106edc76126334a2c38 for Tent Sapling Genesis block
     getUTCDate
-      10) "before each" hook for "returns UTC date of 0017d064ad1e2c9bb5e8544872a5d35c71e6bcf5502dc8f61266792bf4581feb"
+      ✓ returns UTC date of 0017d064ad1e2c9bb5e8544872a5d35c71e6bcf5502dc8f61266792bf4581feb
+      ✓ returns UTC date of 000003da15493ba3a837f75f7cdde83a2a28249149a78727342f7bde0f251cc8
+      ✓ returns UTC date of 05a60a92d99d85997cce3b87616c089f6124d7342af37106edc76126334a2c38
     calculateMerkleRoot
-      11) "before each" hook for "returns 4b6285fb6f64e9d5c84c95dd90e35133550174ead06bbedce3ff49cbe993726b for 0017d064ad1e2c9bb5e8544872a5d35c71e6bcf5502dc8f61266792bf4581feb"
+      ✓ returns 4b6285fb6f64e9d5c84c95dd90e35133550174ead06bbedce3ff49cbe993726b for 0017d064ad1e2c9bb5e8544872a5d35c71e6bcf5502dc8f61266792bf4581feb
+      ✓ returns 8b612db17691cee1cf9c0e41416ba9b6adac91172665eea0684a11d55f19cc2b for 000003da15493ba3a837f75f7cdde83a2a28249149a78727342f7bde0f251cc8
+      ✓ returns c4eaa58879081de3c24a7b117ed2b28300e7ec4c4c1dff1d3f1268b7857a4ddb for 05a60a92d99d85997cce3b87616c089f6124d7342af37106edc76126334a2c38
     checkMerkleRoot
-      12) "before each" hook for "Tent returns true for 0017d064ad1e2c9bb5e8544872a5d35c71e6bcf5502dc8f61266792bf4581feb"
+      ✓ Tent returns true for 0017d064ad1e2c9bb5e8544872a5d35c71e6bcf5502dc8f61266792bf4581feb
+      ✓ Tent returns true for 000003da15493ba3a837f75f7cdde83a2a28249149a78727342f7bde0f251cc8
+      ✓ Tent returns true for 05a60a92d99d85997cce3b87616c089f6124d7342af37106edc76126334a2c38
     checkProofOfWork
-      13) "before each" hook for "Tent returns true for 0017d064ad1e2c9bb5e8544872a5d35c71e6bcf5502dc8f61266792bf4581feb"
+      ✓ Tent returns true for 0017d064ad1e2c9bb5e8544872a5d35c71e6bcf5502dc8f61266792bf4581feb
+      ✓ Tent returns true for 000003da15493ba3a837f75f7cdde83a2a28249149a78727342f7bde0f251cc8
+      ✓ Tent returns true for 05a60a92d99d85997cce3b87616c089f6124d7342af37106edc76126334a2c38
 
   ZcashBufferReader
     ✓ readInt64
@@ -1387,42 +1399,42 @@
     fromBuffer/fromHex
       ✓ imports Version 1 transaction (1:1)
       ✓ imports Version 1 transaction (1:3)
-      14) imports Version 2 transaction (3:1)
-      15) imports Version 2 transaction (4:0) with JoinSplit
-      16) imports Version 2 transaction (0:1) with JoinSplit and bits that look like marker and witness
-      17) imports Version 3 transaction (4:2)
-      18) imports Version 3 transaction (2:2)
-      19) imports Version 3 transaction (1:2) zero lock_time
-      20) imports Version 4 transaction (1:1) zero lock_time
-      21) imports Version 4 transaction, ZIP 243 Test Vector 1
-      22) imports Version 4 transaction, ZIP 243 Test Vector 2
+      ✓ imports Version 2 transaction (3:1)
+      ✓ imports Version 2 transaction (4:0) with JoinSplit
+      ✓ imports Version 2 transaction (0:1) with JoinSplit and bits that look like marker and witness
+      ✓ imports Version 3 transaction (4:2)
+      ✓ imports Version 3 transaction (2:2)
+      ✓ imports Version 3 transaction (1:2) zero lock_time
+      ✓ imports Version 4 transaction (1:1) zero lock_time
+      ✓ imports Version 4 transaction, ZIP 243 Test Vector 1
+      ✓ imports Version 4 transaction, ZIP 243 Test Vector 2
       ✓ exports Version 1 transaction (1:1)
       ✓ exports Version 1 transaction (1:3)
-      23) exports Version 2 transaction (3:1)
-      24) exports Version 2 transaction (4:0) with JoinSplit
-      25) exports Version 2 transaction (0:1) with JoinSplit and bits that look like marker and witness
-      26) exports Version 3 transaction (4:2)
-      27) exports Version 3 transaction (2:2)
-      28) exports Version 3 transaction (1:2) zero lock_time
-      29) exports Version 4 transaction (1:1) zero lock_time
-      30) exports Version 4 transaction, ZIP 243 Test Vector 1
-      31) exports Version 4 transaction, ZIP 243 Test Vector 2
+      ✓ exports Version 2 transaction (3:1)
+      ✓ exports Version 2 transaction (4:0) with JoinSplit
+      ✓ exports Version 2 transaction (0:1) with JoinSplit and bits that look like marker and witness
+      ✓ exports Version 3 transaction (4:2)
+      ✓ exports Version 3 transaction (2:2)
+      ✓ exports Version 3 transaction (1:2) zero lock_time
+      ✓ exports Version 4 transaction (1:1) zero lock_time
+      ✓ exports Version 4 transaction, ZIP 243 Test Vector 1
+      ✓ exports Version 4 transaction, ZIP 243 Test Vector 2
       ✓ clone Version 1 transaction (1:1)
       ✓ clone Version 1 transaction (1:3)
-      32) clone Version 2 transaction (3:1)
-      33) clone Version 2 transaction (4:0) with JoinSplit
-      34) clone Version 2 transaction (0:1) with JoinSplit and bits that look like marker and witness
-      35) clone Version 3 transaction (4:2)
-      36) clone Version 3 transaction (2:2)
-      37) clone Version 3 transaction (1:2) zero lock_time
-      38) clone Version 4 transaction (1:1) zero lock_time
-      39) clone Version 4 transaction, ZIP 243 Test Vector 1
-      40) clone Version 4 transaction, ZIP 243 Test Vector 2
+      ✓ clone Version 2 transaction (3:1)
+      ✓ clone Version 2 transaction (4:0) with JoinSplit
+      ✓ clone Version 2 transaction (0:1) with JoinSplit and bits that look like marker and witness
+      ✓ clone Version 3 transaction (4:2)
+      ✓ clone Version 3 transaction (2:2)
+      ✓ clone Version 3 transaction (1:2) zero lock_time
+      ✓ clone Version 4 transaction (1:1) zero lock_time
+      ✓ clone Version 4 transaction, ZIP 243 Test Vector 1
+      ✓ clone Version 4 transaction, ZIP 243 Test Vector 2
     hashForTentSignature
-      41) should return 967f00c292b9af74c7e770bd393f80b6a6d1c50ae639356dd66d29020d5904ed for version 3 transaction (3:4) from Tent test data
-      42) should return 44db5f1c43284937e6bb2b25790c06fb2f22b5a25062e8455b964dbbcd9f64de for version 3 transaction (3:2) from Tent test data
-      43) should return ed51c8db5ba2accabb1d8a718ecc0e61a55ebdf4a2a2aaa3999593e6c207f9c1 for version 3 transaction (4:3) from Tent test data
-      44) should throw on version 3 with joinsplits
+      ✓ should return 3bf176654bb7387b660be1199eea432f2fa70f589038fa3dd4e7b8ba2f5bd212 for version 3 transaction (3:4) from Tent test data
+      ✓ should return 1726c57a130be19cb1a43e0661d3c06155a9016331500605de30a103f9aa4161 for version 3 transaction (3:2) from Tent test data
+      ✓ should return 5c316504020e893861bdaa60619447b673fcb90b4c34c8b4ea89d9a880e6959a for version 3 transaction (4:3) from Tent test data
+      ✓ should throw on version 3 with joinsplits
 
   TransactionBuilder (tent)
     ✓ returns TransactionBuilder, with Version 1 transaction (1:1)
@@ -1601,7 +1613,7 @@
     getIdentifier
       ✓ returns the identifier for 3442193e
       ✓ returns the identifier for 5c1bd648
-      ✓ returns the identifier for bef5a2f9
+      ✓ returns the identifier for bef5a2f9 (51ms)
       ✓ returns the identifier for ee7ab90c
       ✓ returns the identifier for d880d7d8
       ✓ returns the identifier for d69aa102
@@ -1710,7 +1722,7 @@
     ✓ can generate a SegWit address (via P2SH)
     ✓ can generate a SegWit 3-of-4 multisig address
     ✓ can generate a SegWit 2-of-2 multisig address (via P2SH)
-    ✓ can support the retrieval of transactions for an address (via 3PBP) (209ms)
+    ✓ can support the retrieval of transactions for an address (via 3PBP) (183ms)
     ✓ can generate a Testnet address
     ✓ can generate a Litecoin address
 
@@ -1732,11 +1744,11 @@
     ✓ can recover a BIP32 parent private key from the parent public key, and a derived, non-hardened child private key
 
   bitcoinjs-lib (crypto)
-    ✓ can generate a single-key stealth address (49ms)
-    ✓ can generate a single-key stealth address (randomly) (56ms)
-    ✓ can recover parent recipient.d, if a derived private key is leaked [and nonce was revealed] (61ms)
-    ✓ can generate a dual-key stealth address (74ms)
-    ✓ can generate a dual-key stealth address (randomly) (88ms)
+    ✓ can generate a single-key stealth address (47ms)
+    ✓ can generate a single-key stealth address (randomly) (46ms)
+    ✓ can recover parent recipient.d, if a derived private key is leaked [and nonce was revealed] (59ms)
+    ✓ can generate a dual-key stealth address (75ms)
+    ✓ can generate a dual-key stealth address (randomly) (73ms)
 
   bitcoinjs-lib (transactions)
     ✓ can create a 1-to-1 Transaction
@@ -3901,8 +3913,8 @@
       ✓ P2SH 2-of-3 multisig, signed by key 1 and 2 (Dash) network=dash
       ✓ P2SH 2-of-3 multisig, signed by key 1 and 2 (Dash) - brodcasted network=dash
       ✓ P2SH 2-of-3 multisig, signed by key 1 and 2 (Dash testnet) network=dashTest
-      45) Tent Sapling P2SH 2-of-3 multisig, signed by key 3 and 1 network=tentTest
-      46) Tent P2SH 2-of-3 multisig, signed by key 3 and 1 network=tentTest
+      ✓ Tent Sapling P2SH 2-of-3 multisig, signed by key 3 and 1 network=tentTest
+      ✓ Tent P2SH 2-of-3 multisig, signed by key 3 and 1 network=tentTest
       ✓ Zcash Sapling P2SH 2-of-3 multisig, signed by key 3 and 1 network=zcashTest
       ✓ Zcash P2SH 2-of-3 multisig, signed by key 3 and 1 network=zcashTest
     various edge case
@@ -3928,579 +3940,14 @@
       ✓ returns false for valid for 2100000100000000
 
 
-  3603 passing (7s)
+  3661 passing (5s)
   7 pending
-  46 failing
-
-  1) address
-       fromBase58Check
-         decodes s1U1W3Hpkp9VgbHAsgYjSeyQsxpc6S9C38p:
-
-      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
-
-7208 !== 7352
-
-      + expected - actual
-
-      -7208
-      +7352
-      
-      at Context.<anonymous> (test/address.js:17:16)
-      at processImmediate (internal/timers.js:461:21)
-
-  2) address
-       fromBase58Check
-         decodes tmGX79mEeSnjMVwSnsh15LhGvCSnkHF9bbL:
-
-      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
-[32m+ actual[39m [31m- expected[39m
-
-[32m+[39m '4aa877ef786e53288bde140170200d4459f6b81f'
-[31m-[39m '4AA877EF786E53288BDE140170200D4459F6B81F'
-      + expected - actual
-
-      -4aa877ef786e53288bde140170200d4459f6b81f
-      +4AA877EF786E53288BDE140170200D4459F6B81F
-      
-      at Context.<anonymous> (test/address.js:18:16)
-      at processImmediate (internal/timers.js:461:21)
-
-  3) address
-       toBase58Check
-         encodes 4AA877EF786E53288BDE140170200D4459F6B81F (tent):
-
-      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
-[32m+ actual[39m [31m- expected[39m
-
-[32m+[39m 't1QgMpvkF48DrMhFMCxhLV2cAbThvsCVTes'
-[31m-[39m 's1U1W3Hpkp9VgbHAsgYjSeyQsxpc6S9C38p'
-      + expected - actual
-
-      -t1QgMpvkF48DrMhFMCxhLV2cAbThvsCVTes
-      +s1U1W3Hpkp9VgbHAsgYjSeyQsxpc6S9C38p
-      
-      at Context.<anonymous> (test/address.js:81:16)
-      at processImmediate (internal/timers.js:461:21)
-
-  4) address
-       toOutputScript
-         decodes OP_DUP OP_HASH160 4AA877EF786E... (tent):
-
-      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
-[32m+ actual[39m [31m- expected[39m
-
-[32m+[39m 'OP_DUP OP_HASH160 4aa877ef786e53288bde140170200d4459f6b81f OP_EQUALVERIFY OP_CHECKSIG'
-[31m-[39m 'OP_DUP OP_HASH160 4AA877EF786E53288BDE140170200D4459F6B81F OP_EQUALVERIFY OP_CHECKSIG'
-                      ^
-      + expected - actual
-
-      -OP_DUP OP_HASH160 4aa877ef786e53288bde140170200d4459f6b81f OP_EQUALVERIFY OP_CHECKSIG
-      +OP_DUP OP_HASH160 4AA877EF786E53288BDE140170200D4459F6B81F OP_EQUALVERIFY OP_CHECKSIG
-      
-      at Context.<anonymous> (test/address.js:112:16)
-      at processImmediate (internal/timers.js:461:21)
-
-  5) address
-       toOutputScript
-         decodes OP_DUP OP_HASH160 4AA877EF786E... (tentTest):
-
-      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
-[32m+ actual[39m [31m- expected[39m
-
-[32m+[39m 'OP_DUP OP_HASH160 4aa877ef786e53288bde140170200d4459f6b81f OP_EQUALVERIFY OP_CHECKSIG'
-[31m-[39m 'OP_DUP OP_HASH160 4AA877EF786E53288BDE140170200D4459F6B81F OP_EQUALVERIFY OP_CHECKSIG'
-                      ^
-      + expected - actual
-
-      -OP_DUP OP_HASH160 4aa877ef786e53288bde140170200d4459f6b81f OP_EQUALVERIFY OP_CHECKSIG
-      +OP_DUP OP_HASH160 4AA877EF786E53288BDE140170200D4459F6B81F OP_EQUALVERIFY OP_CHECKSIG
-      
-      at Context.<anonymous> (test/address.js:112:16)
-      at processImmediate (internal/timers.js:461:21)
-
-  6) Block (tent)
-       fromBuffer/fromHex
-         imports Tent Sapling 1:
-     RangeError: value out of range
-      at checkUInt53 (node_modules/varuint-bitcoin/index.js:8:59)
-      at Object.decode (node_modules/varuint-bitcoin/index.js:73:5)
-      at TentBufferReader.readVarInt (src/bufferutils.js:6:1098)
-      at TentBufferReader.readVarSlice (src/bufferutils.js:6:1696)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1960)
-      at readTransaction (src/block.js:2:278)
-      at Function.Block.fromBuffer (src/block.js:2:651)
-      at Function.Block.fromHex (src/block.js:2:1973)
-      at Context.<anonymous> (test/forks/tent/block.js:15:27)
-      at processImmediate (internal/timers.js:461:21)
-
-  7) Block (tent)
-       fromBuffer/fromHex
-         imports Tent Sapling 2:
-     RangeError: value out of range
-      at checkUInt53 (node_modules/varuint-bitcoin/index.js:8:59)
-      at Object.decode (node_modules/varuint-bitcoin/index.js:73:5)
-      at TentBufferReader.readVarInt (src/bufferutils.js:6:1098)
-      at TentBufferReader.readVarSlice (src/bufferutils.js:6:1696)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1960)
-      at readTransaction (src/block.js:2:278)
-      at Function.Block.fromBuffer (src/block.js:2:651)
-      at Function.Block.fromHex (src/block.js:2:1973)
-      at Context.<anonymous> (test/forks/tent/block.js:15:27)
-      at processImmediate (internal/timers.js:461:21)
-
-  8) Block (tent)
-       toBuffer/toHex
-         "before each" hook for "exports Tent Sapling 1":
-     RangeError: value out of range
-      at checkUInt53 (node_modules/varuint-bitcoin/index.js:8:59)
-      at Object.decode (node_modules/varuint-bitcoin/index.js:73:5)
-      at TentBufferReader.readVarInt (src/bufferutils.js:6:1098)
-      at TentBufferReader.readVarSlice (src/bufferutils.js:6:1696)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1960)
-      at readTransaction (src/block.js:2:278)
-      at Function.Block.fromBuffer (src/block.js:2:651)
-      at Function.Block.fromHex (src/block.js:2:1973)
-      at Context.<anonymous> (test/forks/tent/block.js:48:23)
-      at processImmediate (internal/timers.js:461:21)
-
-  9) Block (tent)
-       getHash/getId
-         "before each" hook for "returns 0017d064ad1e2c9bb5e8544872a5d35c71e6bcf5502dc8f61266792bf4581feb for Tent Sapling 1":
-     RangeError: value out of range
-      at checkUInt53 (node_modules/varuint-bitcoin/index.js:8:59)
-      at Object.decode (node_modules/varuint-bitcoin/index.js:73:5)
-      at TentBufferReader.readVarInt (src/bufferutils.js:6:1098)
-      at TentBufferReader.readVarSlice (src/bufferutils.js:6:1696)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1960)
-      at readTransaction (src/block.js:2:278)
-      at Function.Block.fromBuffer (src/block.js:2:651)
-      at Function.Block.fromHex (src/block.js:2:1973)
-      at Context.<anonymous> (test/forks/tent/block.js:63:23)
-      at processImmediate (internal/timers.js:461:21)
-
-  10) Block (tent)
-       getUTCDate
-         "before each" hook for "returns UTC date of 0017d064ad1e2c9bb5e8544872a5d35c71e6bcf5502dc8f61266792bf4581feb":
-     RangeError: value out of range
-      at checkUInt53 (node_modules/varuint-bitcoin/index.js:8:59)
-      at Object.decode (node_modules/varuint-bitcoin/index.js:73:5)
-      at TentBufferReader.readVarInt (src/bufferutils.js:6:1098)
-      at TentBufferReader.readVarSlice (src/bufferutils.js:6:1696)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1960)
-      at readTransaction (src/block.js:2:278)
-      at Function.Block.fromBuffer (src/block.js:2:651)
-      at Function.Block.fromHex (src/block.js:2:1973)
-      at Context.<anonymous> (test/forks/tent/block.js:78:23)
-      at processImmediate (internal/timers.js:461:21)
-
-  11) Block (tent)
-       calculateMerkleRoot
-         "before each" hook for "returns 4b6285fb6f64e9d5c84c95dd90e35133550174ead06bbedce3ff49cbe993726b for 0017d064ad1e2c9bb5e8544872a5d35c71e6bcf5502dc8f61266792bf4581feb":
-     RangeError: value out of range
-      at checkUInt53 (node_modules/varuint-bitcoin/index.js:8:59)
-      at Object.decode (node_modules/varuint-bitcoin/index.js:73:5)
-      at TentBufferReader.readVarInt (src/bufferutils.js:6:1098)
-      at TentBufferReader.readVarSlice (src/bufferutils.js:6:1696)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1960)
-      at readTransaction (src/block.js:2:278)
-      at Function.Block.fromBuffer (src/block.js:2:651)
-      at Function.Block.fromHex (src/block.js:2:1973)
-      at Context.<anonymous> (test/forks/tent/block.js:96:23)
-      at processImmediate (internal/timers.js:461:21)
-
-  12) Block (tent)
-       checkMerkleRoot
-         "before each" hook for "Tent returns true for 0017d064ad1e2c9bb5e8544872a5d35c71e6bcf5502dc8f61266792bf4581feb":
-     RangeError: value out of range
-      at checkUInt53 (node_modules/varuint-bitcoin/index.js:8:59)
-      at Object.decode (node_modules/varuint-bitcoin/index.js:73:5)
-      at TentBufferReader.readVarInt (src/bufferutils.js:6:1098)
-      at TentBufferReader.readVarSlice (src/bufferutils.js:6:1696)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1960)
-      at readTransaction (src/block.js:2:278)
-      at Function.Block.fromBuffer (src/block.js:2:651)
-      at Function.Block.fromHex (src/block.js:2:1973)
-      at Context.<anonymous> (test/forks/tent/block.js:112:23)
-      at processImmediate (internal/timers.js:461:21)
-
-  13) Block (tent)
-       checkProofOfWork
-         "before each" hook for "Tent returns true for 0017d064ad1e2c9bb5e8544872a5d35c71e6bcf5502dc8f61266792bf4581feb":
-     RangeError: value out of range
-      at checkUInt53 (node_modules/varuint-bitcoin/index.js:8:59)
-      at Object.decode (node_modules/varuint-bitcoin/index.js:73:5)
-      at TentBufferReader.readVarInt (src/bufferutils.js:6:1098)
-      at TentBufferReader.readVarSlice (src/bufferutils.js:6:1696)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1960)
-      at readTransaction (src/block.js:2:278)
-      at Function.Block.fromBuffer (src/block.js:2:651)
-      at Function.Block.fromHex (src/block.js:2:1973)
-      at Context.<anonymous> (test/forks/tent/block.js:126:23)
-      at processImmediate (internal/timers.js:461:21)
-
-  14) Transaction (tent)
-       fromBuffer/fromHex
-         imports Version 2 transaction (3:1):
-     Error: Transaction has unexpected data
-      at Function.Transaction.fromBuffer (src/transaction.js:17:2565)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:16:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  15) Transaction (tent)
-       fromBuffer/fromHex
-         imports Version 2 transaction (4:0) with JoinSplit:
-     Error: Transaction has unexpected data
-      at Function.Transaction.fromBuffer (src/transaction.js:17:2565)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:16:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  16) Transaction (tent)
-       fromBuffer/fromHex
-         imports Version 2 transaction (0:1) with JoinSplit and bits that look like marker and witness:
-     Error: Transaction has unexpected data
-      at Function.Transaction.fromBuffer (src/transaction.js:17:2565)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:16:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  17) Transaction (tent)
-       fromBuffer/fromHex
-         imports Version 3 transaction (4:2):
-     Error: Cannot read slice out of bounds
-      at TentBufferReader.readSlice (src/bufferutils.js:6:1372)
-      at TentBufferReader.readVarSlice (src/bufferutils.js:6:1681)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1960)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:16:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  18) Transaction (tent)
-       fromBuffer/fromHex
-         imports Version 3 transaction (2:2):
-     Error: Cannot read slice out of bounds
-      at TentBufferReader.readSlice (src/bufferutils.js:6:1372)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1894)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:16:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  19) Transaction (tent)
-       fromBuffer/fromHex
-         imports Version 3 transaction (1:2) zero lock_time:
-     RangeError: value out of range
-      at checkUInt53 (node_modules/varuint-bitcoin/index.js:8:59)
-      at Object.decode (node_modules/varuint-bitcoin/index.js:73:5)
-      at TentBufferReader.readVarInt (src/bufferutils.js:6:1098)
-      at TentBufferReader.readVarSlice (src/bufferutils.js:6:1696)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1960)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:16:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  20) Transaction (tent)
-       fromBuffer/fromHex
-         imports Version 4 transaction (1:1) zero lock_time:
-     Error: Cannot read slice out of bounds
-      at TentBufferReader.readSlice (src/bufferutils.js:6:1372)
-      at TentBufferReader.readVarSlice (src/bufferutils.js:6:1681)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1960)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:16:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  21) Transaction (tent)
-       fromBuffer/fromHex
-         imports Version 4 transaction, ZIP 243 Test Vector 1:
-     Error: Cannot read slice out of bounds
-      at TentBufferReader.readSlice (src/bufferutils.js:6:1372)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1894)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:16:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  22) Transaction (tent)
-       fromBuffer/fromHex
-         imports Version 4 transaction, ZIP 243 Test Vector 2:
-     Error: Cannot read slice out of bounds
-      at TentBufferReader.readSlice (src/bufferutils.js:6:1372)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1894)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:16:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  23) Transaction (tent)
-       fromBuffer/fromHex
-         exports Version 2 transaction (3:1):
-     Error: Transaction has unexpected data
-      at Function.Transaction.fromBuffer (src/transaction.js:17:2565)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:48:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  24) Transaction (tent)
-       fromBuffer/fromHex
-         exports Version 2 transaction (4:0) with JoinSplit:
-     Error: Transaction has unexpected data
-      at Function.Transaction.fromBuffer (src/transaction.js:17:2565)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:48:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  25) Transaction (tent)
-       fromBuffer/fromHex
-         exports Version 2 transaction (0:1) with JoinSplit and bits that look like marker and witness:
-     Error: Transaction has unexpected data
-      at Function.Transaction.fromBuffer (src/transaction.js:17:2565)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:48:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  26) Transaction (tent)
-       fromBuffer/fromHex
-         exports Version 3 transaction (4:2):
-     Error: Cannot read slice out of bounds
-      at TentBufferReader.readSlice (src/bufferutils.js:6:1372)
-      at TentBufferReader.readVarSlice (src/bufferutils.js:6:1681)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1960)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:48:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  27) Transaction (tent)
-       fromBuffer/fromHex
-         exports Version 3 transaction (2:2):
-     Error: Cannot read slice out of bounds
-      at TentBufferReader.readSlice (src/bufferutils.js:6:1372)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1894)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:48:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  28) Transaction (tent)
-       fromBuffer/fromHex
-         exports Version 3 transaction (1:2) zero lock_time:
-     RangeError: value out of range
-      at checkUInt53 (node_modules/varuint-bitcoin/index.js:8:59)
-      at Object.decode (node_modules/varuint-bitcoin/index.js:73:5)
-      at TentBufferReader.readVarInt (src/bufferutils.js:6:1098)
-      at TentBufferReader.readVarSlice (src/bufferutils.js:6:1696)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1960)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:48:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  29) Transaction (tent)
-       fromBuffer/fromHex
-         exports Version 4 transaction (1:1) zero lock_time:
-     Error: Cannot read slice out of bounds
-      at TentBufferReader.readSlice (src/bufferutils.js:6:1372)
-      at TentBufferReader.readVarSlice (src/bufferutils.js:6:1681)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1960)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:48:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  30) Transaction (tent)
-       fromBuffer/fromHex
-         exports Version 4 transaction, ZIP 243 Test Vector 1:
-     Error: Cannot read slice out of bounds
-      at TentBufferReader.readSlice (src/bufferutils.js:6:1372)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1894)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:48:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  31) Transaction (tent)
-       fromBuffer/fromHex
-         exports Version 4 transaction, ZIP 243 Test Vector 2:
-     Error: Cannot read slice out of bounds
-      at TentBufferReader.readSlice (src/bufferutils.js:6:1372)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1894)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:48:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  32) Transaction (tent)
-       fromBuffer/fromHex
-         clone Version 2 transaction (3:1):
-     Error: Transaction has unexpected data
-      at Function.Transaction.fromBuffer (src/transaction.js:17:2565)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:56:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  33) Transaction (tent)
-       fromBuffer/fromHex
-         clone Version 2 transaction (4:0) with JoinSplit:
-     Error: Transaction has unexpected data
-      at Function.Transaction.fromBuffer (src/transaction.js:17:2565)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:56:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  34) Transaction (tent)
-       fromBuffer/fromHex
-         clone Version 2 transaction (0:1) with JoinSplit and bits that look like marker and witness:
-     Error: Transaction has unexpected data
-      at Function.Transaction.fromBuffer (src/transaction.js:17:2565)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:56:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  35) Transaction (tent)
-       fromBuffer/fromHex
-         clone Version 3 transaction (4:2):
-     Error: Cannot read slice out of bounds
-      at TentBufferReader.readSlice (src/bufferutils.js:6:1372)
-      at TentBufferReader.readVarSlice (src/bufferutils.js:6:1681)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1960)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:56:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  36) Transaction (tent)
-       fromBuffer/fromHex
-         clone Version 3 transaction (2:2):
-     Error: Cannot read slice out of bounds
-      at TentBufferReader.readSlice (src/bufferutils.js:6:1372)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1894)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:56:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  37) Transaction (tent)
-       fromBuffer/fromHex
-         clone Version 3 transaction (1:2) zero lock_time:
-     RangeError: value out of range
-      at checkUInt53 (node_modules/varuint-bitcoin/index.js:8:59)
-      at Object.decode (node_modules/varuint-bitcoin/index.js:73:5)
-      at TentBufferReader.readVarInt (src/bufferutils.js:6:1098)
-      at TentBufferReader.readVarSlice (src/bufferutils.js:6:1696)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1960)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:56:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  38) Transaction (tent)
-       fromBuffer/fromHex
-         clone Version 4 transaction (1:1) zero lock_time:
-     Error: Cannot read slice out of bounds
-      at TentBufferReader.readSlice (src/bufferutils.js:6:1372)
-      at TentBufferReader.readVarSlice (src/bufferutils.js:6:1681)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1960)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:56:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  39) Transaction (tent)
-       fromBuffer/fromHex
-         clone Version 4 transaction, ZIP 243 Test Vector 1:
-     Error: Cannot read slice out of bounds
-      at TentBufferReader.readSlice (src/bufferutils.js:6:1372)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1894)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:56:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  40) Transaction (tent)
-       fromBuffer/fromHex
-         clone Version 4 transaction, ZIP 243 Test Vector 2:
-     Error: Cannot read slice out of bounds
-      at TentBufferReader.readSlice (src/bufferutils.js:6:1372)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1894)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:56:32)
-      at processImmediate (internal/timers.js:461:21)
-
-  41) Transaction (tent)
-       hashForTentSignature
-         should return 967f00c292b9af74c7e770bd393f80b6a6d1c50ae639356dd66d29020d5904ed for version 3 transaction (3:4) from Tent test data:
-
-      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
-[32m+ actual[39m [31m- expected[39m
-
-[32m+[39m '12d25b2fbab8e7d43dfa3890580fa72f2f43ea9e19e10b667b38b74b6576f13b'
-[31m-[39m 'ed04590d02296dd66d3539e60ac5d1a6b6803f39bd70e7c774afb992c2007f96'
-      + expected - actual
-
-      -12d25b2fbab8e7d43dfa3890580fa72f2f43ea9e19e10b667b38b74b6576f13b
-      +ed04590d02296dd66d3539e60ac5d1a6b6803f39bd70e7c774afb992c2007f96
-      
-      at Context.<anonymous> (test/forks/tent/transaction.js:74:16)
-      at processImmediate (internal/timers.js:461:21)
-
-  42) Transaction (tent)
-       hashForTentSignature
-         should return 44db5f1c43284937e6bb2b25790c06fb2f22b5a25062e8455b964dbbcd9f64de for version 3 transaction (3:2) from Tent test data:
-
-      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
-[32m+ actual[39m [31m- expected[39m
-
-[32m+[39m '6141aaf903a130de050650316301a95561c0d361063ea4b19ce10b137ac52617'
-[31m-[39m 'de649fcdbb4d965b45e86250a2b5222ffb060c79252bbbe6374928431c5fdb44'
-      + expected - actual
-
-      -6141aaf903a130de050650316301a95561c0d361063ea4b19ce10b137ac52617
-      +de649fcdbb4d965b45e86250a2b5222ffb060c79252bbbe6374928431c5fdb44
-      
-      at Context.<anonymous> (test/forks/tent/transaction.js:74:16)
-      at processImmediate (internal/timers.js:461:21)
-
-  43) Transaction (tent)
-       hashForTentSignature
-         should return ed51c8db5ba2accabb1d8a718ecc0e61a55ebdf4a2a2aaa3999593e6c207f9c1 for version 3 transaction (4:3) from Tent test data:
-
-      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
-[32m+ actual[39m [31m- expected[39m
-
-[32m+[39m '9a95e680a8d989eab4c8344c0bb9fc73b647946160aabd6138890e020465315c'
-[31m-[39m 'c1f907c2e6939599a3aaa2a2f4bd5ea5610ecc8e718a1dbbcaaca25bdbc851ed'
-      + expected - actual
-
-      -9a95e680a8d989eab4c8344c0bb9fc73b647946160aabd6138890e020465315c
-      +c1f907c2e6939599a3aaa2a2f4bd5ea5610ecc8e718a1dbbcaaca25bdbc851ed
-      
-      at Context.<anonymous> (test/forks/tent/transaction.js:74:16)
-      at processImmediate (internal/timers.js:461:21)
-
-  44) Transaction (tent)
-       hashForTentSignature
-         should throw on version 3 with joinsplits:
-     Error: Cannot read slice out of bounds
-      at TentBufferReader.readSlice (src/bufferutils.js:6:1372)
-      at TentBufferReader.readVarSlice (src/bufferutils.js:6:1681)
-      at Function.Transaction.fromBuffer (src/transaction.js:16:1960)
-      at Function.Transaction.fromHex (src/transaction.js:17:2810)
-      at Context.<anonymous> (test/forks/tent/transaction.js:82:30)
-      at processImmediate (internal/timers.js:461:21)
-
-  45) TransactionBuilder
-       multisig
-         Tent Sapling P2SH 2-of-3 multisig, signed by key 3 and 1 network=tentTest:
-     Error: expiryHeight can only be set for Zcash or Tent starting at overwinter version. Current network coin: tent, version: 4
-      at TransactionBuilder.setExpiryHeight (src/transaction_builder.js:22:2911)
-      at construct (test/transaction_builder.js:24:41)
-      at Context.<anonymous> (test/transaction_builder.js:458:19)
-      at processImmediate (internal/timers.js:461:21)
-
-  46) TransactionBuilder
-       multisig
-         Tent P2SH 2-of-3 multisig, signed by key 3 and 1 network=tentTest:
-     Error: expiryHeight can only be set for Zcash or Tent starting at overwinter version. Current network coin: tent, version: 3
-      at TransactionBuilder.setVersionGroupId (src/transaction_builder.js:22:2150)
-      at construct (test/transaction_builder.js:25:43)
-      at Context.<anonymous> (test/transaction_builder.js:458:19)
-      at processImmediate (internal/timers.js:461:21)
-
-
 
 ---------------------------------|----------|----------|----------|----------|-------------------|
 File                             |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
 ---------------------------------|----------|----------|----------|----------|-------------------|
-All files                        |    94.38 |    89.93 |    94.79 |    95.49 |                   |
- src                             |    95.19 |    89.49 |    99.27 |    95.77 |                   |
+All files                        |    95.55 |    91.09 |    95.92 |    96.75 |                   |
+ src                             |    95.71 |    90.76 |    99.28 |    96.34 |                   |
   address.js                     |      100 |    95.24 |      100 |      100 |             87,91 |
   block.js                       |    99.24 |       96 |      100 |      100 |            15,189 |
   bufferutils.js                 |    82.28 |    68.75 |    95.65 |    82.89 |... 35,36,37,38,40 |
@@ -4515,14 +3962,14 @@ All files                        |    94.38 |    89.93 |    94.79 |    95.49 |  
   networks.js                    |      100 |      100 |      100 |      100 |                   |
   script.js                      |    98.15 |    97.14 |      100 |     98.9 |               139 |
   script_number.js               |       95 |    89.47 |      100 |      100 |         5,9,10,12 |
-  transaction.js                 |    95.77 |    88.47 |      100 |    95.65 |... 26,833,941,968 |
-  transaction_builder.js         |    93.87 |    89.36 |      100 |    94.98 |... 63,586,621,622 |
+  transaction.js                 |    97.81 |    93.06 |      100 |    97.75 |... 29,836,944,971 |
+  transaction_builder.js         |    93.49 |    88.92 |      100 |    94.56 |... 63,586,621,622 |
   types.js                       |      100 |      100 |      100 |      100 |                   |
  src/bitgo                       |    92.31 |     87.5 |      100 |      100 |                   |
   index.js                       |      100 |      100 |      100 |      100 |                   |
   keyutil.js                     |    91.67 |     87.5 |      100 |      100 |                29 |
- src/forks/tent                  |    71.64 |       50 |       60 |    71.21 |                   |
-  bufferutils.js                 |    71.21 |       50 |       60 |    70.77 |... 46,147,151,152 |
+ src/forks/tent                  |      100 |      100 |      100 |      100 |                   |
+  bufferutils.js                 |      100 |      100 |      100 |      100 |                   |
   version.js                     |      100 |      100 |      100 |      100 |                   |
  src/forks/zcash                 |      100 |      100 |      100 |      100 |                   |
   bufferutils.js                 |      100 |      100 |      100 |      100 |                   |
