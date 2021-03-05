@@ -541,7 +541,7 @@ TransactionBuilder.prototype.setVersion = function (version, overwinter = true) 
 }
 
 TransactionBuilder.prototype.setVersionGroupId = function (versionGroupId) {
-  if (!((coins.isZcash(this.network) && this.tx.isOverwinterCompatible()) || (coins.isTent(this.network) && this.tx.isOverwinterCompatible()))) {
+  if (!((coins.isZcash(this.network) && this.tx.isZcashOverwinterCompatible()) || (coins.isTent(this.network) && this.tx.isTentOverwinterCompatible()))) {
     throw new Error('expiryHeight can only be set for Zcash or Tent starting at overwinter version. Current network coin: ' +
       this.network.coin + ', version: ' + this.tx.version)
   }
@@ -550,7 +550,7 @@ TransactionBuilder.prototype.setVersionGroupId = function (versionGroupId) {
 }
 
 TransactionBuilder.prototype.setExpiryHeight = function (expiryHeight) {
-  if (!((coins.isZcash(this.network) && this.tx.isOverwinterCompatible()) || (coins.isTent(this.network) && this.tx.isOverwinterCompatible()))) {
+  if (!((coins.isZcash(this.network) && this.tx.isZcashOverwinterCompatible()) || (coins.isTent(this.network) && this.tx.isTentOverwinterCompatible()))) {
     throw new Error('expiryHeight can only be set for Zcash or Tent starting at overwinter version. Current network coin: ' +
       this.network.coin + ', version: ' + this.tx.version)
   }
@@ -559,7 +559,7 @@ TransactionBuilder.prototype.setExpiryHeight = function (expiryHeight) {
 }
 
 TransactionBuilder.prototype.setJoinSplits = function (transaction) {
-  if (!((coins.isZcash(this.network) && this.tx.supportsJoinSplits()) || (coins.isTent(this.network) && this.tx.supportsJoinSplits()))) {
+  if (!((coins.isZcash(this.network) && this.tx.supportsZcashJoinSplits()) || (coins.isTent(this.network) && this.tx.supportsTentJoinSplits()))) {
     throw new Error('joinsplits can only be set for Zcash or Tent starting at version 2. Current network coin: ' +
       this.network.coin + ', version: ' + this.tx.version)
   }
@@ -600,14 +600,14 @@ TransactionBuilder.fromTransaction = function (transaction, network) {
 
   if (coins.isZcash(txbNetwork) || coins.isTent(txbNetwork)) {
     // Copy Zcash/Tent overwinter fields. Omitted if the transaction builder is not for Zcash or Tent.
-    if (txb.tx.isOverwinterCompatible()) {
+    if (txb.tx.isTentOverwinterCompatible() || txb.tx.isZcashOverwinterCompatible()) {
       txb.setVersionGroupId(transaction.versionGroupId)
       txb.setExpiryHeight(transaction.expiryHeight)
     }
 
     // We don't support protected transactions but we copy the joinsplits for consistency. However, the transaction
     // builder will fail when we try to sign one of these transactions
-    if (txb.tx.supportsJoinSplits()) {
+    if (txb.tx.supportsTentJoinSplits() || txb.tx.supportsZcashJoinSplits()) {
       txb.setJoinSplits(transaction)
     }
   }

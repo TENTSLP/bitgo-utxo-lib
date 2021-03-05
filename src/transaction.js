@@ -140,7 +140,7 @@ Transaction.fromBuffer = function (buffer, network = networks.bitcoin, __noStric
     bufferReader.offset -= 2
   }
 
-  if (tx.isOverwinterCompatible()) {
+  if (tx.isTentOverwinterCompatible() || tx.isZcashOverwinterCompatible()) {
     tx.versionGroupId = bufferReader.readUInt32()
   }
 
@@ -175,11 +175,11 @@ Transaction.fromBuffer = function (buffer, network = networks.bitcoin, __noStric
   tx.locktime = bufferReader.readUInt32()
 
   if (coins.isZcash(network) || coins.isTent(network)) {
-    if (tx.isOverwinterCompatible()) {
+    if (tx.isTentOverwinterCompatible() || tx.isZcashOverwinterCompatible()) {
       tx.expiryHeight = bufferReader.readUInt32()
     }
 
-    if (tx.isSaplingCompatible()) {
+    if (tx.isTentSaplingCompatible() || tx.isZcashSaplingCompatible()) {
       tx.valueBalance = bufferReader.readInt64()
       var nShieldedSpend = bufferReader.readVarInt()
       for (i = 0; i < nShieldedSpend; ++i) {
@@ -192,7 +192,7 @@ Transaction.fromBuffer = function (buffer, network = networks.bitcoin, __noStric
       }
     }
 
-    if (tx.supportsJoinSplits()) {
+    if (tx.supportsTentJoinSplits() || tx.supportsZcashJoinSplits()) {
       var joinSplitsLen = bufferReader.readVarInt()
       for (i = 0; i < joinSplitsLen; ++i) {
         tx.joinsplits.push(bufferReader.readJoinSplit())
@@ -203,7 +203,7 @@ Transaction.fromBuffer = function (buffer, network = networks.bitcoin, __noStric
       }
     }
 
-    if (tx.isSaplingCompatible() &&
+    if ((tx.isTentSaplingCompatible() || tx.isZcashSaplingCompatible()) &&
       tx.vShieldedSpend.length + tx.vShieldedOutput.length > 0) {
       tx.bindingSig = bufferReader.readSlice(64)
     }
@@ -233,24 +233,27 @@ Transaction.isCoinbaseHash = function (buffer) {
   return true
 }
 
-Transaction.prototype.isSaplingCompatible = function () {
-  if (this.network === networks.tent) {
-    return coins.isTent(this.network) && this.version >= tentVersion.SAPLING
-  }
+Transaction.prototype.isTentSaplingCompatible = function () {
+  return coins.isTent(this.network) && this.version >= tentVersion.SAPLING
+}
+
+Transaction.prototype.isZcashSaplingCompatible = function () {
   return coins.isZcash(this.network) && this.version >= zcashVersion.SAPLING
 }
 
-Transaction.prototype.isOverwinterCompatible = function () {
-  if (this.network === networks.tent) {
-    return coins.isTent(this.network) && this.version >= tentVersion.OVERWINTER
-  }
+Transaction.prototype.isTentOverwinterCompatible = function () {
+  return coins.isTent(this.network) && this.version >= tentVersion.OVERWINTER
+}
+
+Transaction.prototype.isZcashOverwinterCompatible = function () {
   return coins.isZcash(this.network) && this.version >= zcashVersion.OVERWINTER
 }
 
-Transaction.prototype.supportsJoinSplits = function () {
-  if (this.network === networks.tent) {
-    return coins.isTent(this.network) && this.version >= tentVersion.JOINSPLITS_SUPPORT
-  }
+Transaction.prototype.supportsTentJoinSplits = function () {
+  return coins.isTent(this.network) && this.version >= tentVersion.JOINSPLITS_SUPPORT
+}
+
+Transaction.prototype.supportsZcashJoinSplits = function () {
   return coins.isZcash(this.network) && this.version >= zcashVersion.JOINSPLITS_SUPPORT
 }
 
@@ -319,7 +322,7 @@ Transaction.prototype.byteLength = function () {
 }
 
 Transaction.prototype.getShieldedSpendByteLength = function () {
-  if (!this.isSaplingCompatible()) {
+  if (!(this.isTentSaplingCompatible() || this.isZcashSaplingCompatible())) {
     return 0
   }
 
@@ -330,7 +333,7 @@ Transaction.prototype.getShieldedSpendByteLength = function () {
 }
 
 Transaction.prototype.getShieldedOutputByteLength = function () {
-  if (!this.isSaplingCompatible()) {
+  if (!(this.isTentSaplingCompatible() || this.isZcashSaplingCompatible())) {
     return 0
   }
   var byteLength = 0
@@ -340,7 +343,7 @@ Transaction.prototype.getShieldedOutputByteLength = function () {
 }
 
 Transaction.prototype.getJoinSplitByteLength = function () {
-  if (!this.supportsJoinSplits()) {
+  if (!(this.supportsTentJoinSplits() || this.supportsZcashJoinSplits())) {
     return 0
   }
   var joinSplitsLen = this.joinsplits.length
@@ -351,7 +354,7 @@ Transaction.prototype.getJoinSplitByteLength = function () {
     // Both pre and post Sapling JoinSplits are encoded with the following data:
     // 8 vpub_old, 8 vpub_new, 32 anchor, joinSplitsLen * 32 nullifiers, joinSplitsLen * 32 commitments, 32 ephemeralKey
     // 32 ephemeralKey, 32 randomSeed, joinsplit.macs.length * 32 vmacs
-    if (this.isSaplingCompatible()) {
+    if (this.isTentSaplingCompatible() || this.isZcashSaplingCompatible()) {
       byteLength += 1698 * joinSplitsLen  // vJoinSplit using JSDescriptionGroth16
     } else {
       byteLength += 1802 * joinSplitsLen  // vJoinSplit using JSDescriptionPHGR13
@@ -369,7 +372,7 @@ Transaction.prototype.tentTransactionByteLength = function () {
   }
   var byteLength = 0
   byteLength += 4  // Header
-  if (this.isOverwinterCompatible()) {
+  if (this.isTentOverwinterCompatible() || this.isZcashOverwinterCompatible()) {
     byteLength += 4  // nVersionGroupId
   }
   byteLength += varuint.encodingLength(this.ins.length)  // tx_in_count
@@ -377,18 +380,18 @@ Transaction.prototype.tentTransactionByteLength = function () {
   byteLength += varuint.encodingLength(this.outs.length)  // tx_out_count
   byteLength += this.outs.reduce(function (sum, output) { return sum + 8 + varSliceSize(output.script) }, 0)  // tx_out
   byteLength += 4  // lock_time
-  if (this.isOverwinterCompatible()) {
+  if (this.isTentOverwinterCompatible() || this.isZcashOverwinterCompatible()) {
     byteLength += 4  // nExpiryHeight
   }
-  if (this.isSaplingCompatible()) {
+  if (this.isTentSaplingCompatible() || this.isZcashSaplingCompatible()) {
     byteLength += 8  // valueBalance
     byteLength += this.getShieldedSpendByteLength()
     byteLength += this.getShieldedOutputByteLength()
   }
-  if (this.supportsJoinSplits()) {
+  if (this.supportsTentJoinSplits() || this.supportsZcashJoinSplits()) {
     byteLength += this.getJoinSplitByteLength()
   }
-  if (this.isSaplingCompatible() &&
+  if ((this.isTentSaplingCompatible() || this.isZcashSaplingCompatible()) &&
     this.vShieldedSpend.length + this.vShieldedOutput.length > 0) {
     byteLength += 64  // bindingSig
   }
@@ -401,7 +404,7 @@ Transaction.prototype.zcashTransactionByteLength = function () {
   }
   var byteLength = 0
   byteLength += 4  // Header
-  if (this.isOverwinterCompatible()) {
+  if (this.isTentOverwinterCompatible() || this.isZcashOverwinterCompatible()) {
     byteLength += 4  // nVersionGroupId
   }
   byteLength += varuint.encodingLength(this.ins.length)  // tx_in_count
@@ -409,18 +412,18 @@ Transaction.prototype.zcashTransactionByteLength = function () {
   byteLength += varuint.encodingLength(this.outs.length)  // tx_out_count
   byteLength += this.outs.reduce(function (sum, output) { return sum + 8 + varSliceSize(output.script) }, 0)  // tx_out
   byteLength += 4  // lock_time
-  if (this.isOverwinterCompatible()) {
+  if (this.isTentOverwinterCompatible() || this.isZcashOverwinterCompatible()) {
     byteLength += 4  // nExpiryHeight
   }
-  if (this.isSaplingCompatible()) {
+  if (this.isTentSaplingCompatible() || this.isZcashSaplingCompatible()) {
     byteLength += 8  // valueBalance
     byteLength += this.getShieldedSpendByteLength()
     byteLength += this.getShieldedOutputByteLength()
   }
-  if (this.supportsJoinSplits()) {
+  if (this.supportsTentJoinSplits() || this.supportsZcashJoinSplits()) {
     byteLength += this.getJoinSplitByteLength()
   }
-  if (this.isSaplingCompatible() &&
+  if ((this.isTentSaplingCompatible() || this.isZcashSaplingCompatible()) &&
     this.vShieldedSpend.length + this.vShieldedOutput.length > 0) {
     byteLength += 64  // bindingSig
   }
@@ -460,12 +463,12 @@ Transaction.prototype.clone = function () {
     newTx.extraPayload = this.extraPayload
   }
 
-  if (this.isOverwinterCompatible()) {
+  if (this.isTentOverwinterCompatible() || this.isZcashOverwinterCompatible()) {
     newTx.overwintered = this.overwintered
     newTx.versionGroupId = this.versionGroupId
     newTx.expiryHeight = this.expiryHeight
   }
-  if (this.isSaplingCompatible()) {
+  if (this.isTentSaplingCompatible() || this.isZcashSaplingCompatible()) {
     newTx.valueBalance = this.valueBalance
   }
 
@@ -485,7 +488,7 @@ Transaction.prototype.clone = function () {
       value: txOut.value
     }
   })
-  if (this.isSaplingCompatible()) {
+  if (this.isTentSaplingCompatible() || this.isZcashSaplingCompatible()) {
     newTx.vShieldedSpend = this.vShieldedSpend.map(function (shieldedSpend) {
       return {
         cv: shieldedSpend.cv,
@@ -509,7 +512,7 @@ Transaction.prototype.clone = function () {
     })
   }
 
-  if (this.supportsJoinSplits()) {
+  if (this.supportsTentJoinSplits() || this.supportsZcashJoinSplits()) {
     newTx.joinsplits = this.joinsplits.map(function (txJoinsplit) {
       return {
         vpubOld: txJoinsplit.vpubOld,
@@ -529,7 +532,7 @@ Transaction.prototype.clone = function () {
     newTx.joinsplitSig = this.joinsplitSig
   }
 
-  if (this.isSaplingCompatible() && this.vShieldedSpend.length + this.vShieldedOutput.length > 0) {
+  if ((this.isTentSaplingCompatible() || this.isZcashSaplingCompatible()) && this.vShieldedSpend.length + this.vShieldedOutput.length > 0) {
     newTx.bindingSig = this.bindingSig
   }
 
@@ -747,7 +750,7 @@ Transaction.prototype.hashForTentSignature = function (inIndex, prevOutScript, v
     throw new Error('Input index is out of range')
   }
 
-  if (this.isOverwinterCompatible()) {
+  if (this.isTentOverwinterCompatible() || this.isZcashOverwinterCompatible()) {
     var hashPrevouts = this.getPrevoutHash(hashType)
     var hashSequence = this.getSequenceHash(hashType)
     var hashOutputs = this.getOutputsHash(hashType, inIndex)
@@ -766,7 +769,7 @@ Transaction.prototype.hashForTentSignature = function (inIndex, prevOutScript, v
       baseBufferSize += 32  // input.hash
       baseBufferSize += varSliceSize(prevOutScript)  // prevOutScript
     }
-    if (this.isSaplingCompatible()) {
+    if (this.isTentSaplingCompatible() || this.isZcashSaplingCompatible()) {
       baseBufferSize += 32 * 2  // hashShieldedSpends and hashShieldedOutputs
       baseBufferSize += 8  // valueBalance
     }
@@ -778,13 +781,13 @@ Transaction.prototype.hashForTentSignature = function (inIndex, prevOutScript, v
     bufferWriter.writeSlice(hashSequence)
     bufferWriter.writeSlice(hashOutputs)
     bufferWriter.writeSlice(hashJoinSplits)
-    if (this.isSaplingCompatible()) {
+    if (this.isTentSaplingCompatible() || this.isZcashSaplingCompatible()) {
       bufferWriter.writeSlice(hashShieldedSpends)
       bufferWriter.writeSlice(hashShieldedOutputs)
     }
     bufferWriter.writeUInt32(this.locktime)
     bufferWriter.writeUInt32(this.expiryHeight)
-    if (this.isSaplingCompatible()) {
+    if (this.isTentSaplingCompatible() || this.isZcashSaplingCompatible()) {
       bufferWriter.writeUInt64(this.valueBalance)
     }
     bufferWriter.writeUInt32(hashType)
@@ -833,7 +836,7 @@ Transaction.prototype.hashForZcashSignature = function (inIndex, prevOutScript, 
     throw new Error('Input index is out of range')
   }
 
-  if (this.isOverwinterCompatible()) {
+  if (this.isTentOverwinterCompatible() || this.isZcashOverwinterCompatible()) {
     var hashPrevouts = this.getPrevoutHash(hashType)
     var hashSequence = this.getSequenceHash(hashType)
     var hashOutputs = this.getOutputsHash(hashType, inIndex)
@@ -852,7 +855,7 @@ Transaction.prototype.hashForZcashSignature = function (inIndex, prevOutScript, 
       baseBufferSize += 32  // input.hash
       baseBufferSize += varSliceSize(prevOutScript)  // prevOutScript
     }
-    if (this.isSaplingCompatible()) {
+    if (this.isTentSaplingCompatible() || this.isZcashSaplingCompatible()) {
       baseBufferSize += 32 * 2  // hashShieldedSpends and hashShieldedOutputs
       baseBufferSize += 8  // valueBalance
     }
@@ -864,13 +867,13 @@ Transaction.prototype.hashForZcashSignature = function (inIndex, prevOutScript, 
     bufferWriter.writeSlice(hashSequence)
     bufferWriter.writeSlice(hashOutputs)
     bufferWriter.writeSlice(hashJoinSplits)
-    if (this.isSaplingCompatible()) {
+    if (this.isTentSaplingCompatible() || this.isZcashSaplingCompatible()) {
       bufferWriter.writeSlice(hashShieldedSpends)
       bufferWriter.writeSlice(hashShieldedOutputs)
     }
     bufferWriter.writeUInt32(this.locktime)
     bufferWriter.writeUInt32(this.expiryHeight)
-    if (this.isSaplingCompatible()) {
+    if (this.isTentSaplingCompatible() || this.isZcashSaplingCompatible()) {
       bufferWriter.writeUInt64(this.valueBalance)
     }
     bufferWriter.writeUInt32(hashType)
@@ -1003,7 +1006,7 @@ Transaction.prototype.__toBuffer = function (buffer, initialOffset, __allowWitne
     bufferWriter.offset = bufferWriter.buffer.writeUInt16LE(i, bufferWriter.offset)
   }
 
-  if (this.isOverwinterCompatible()) {
+  if (this.isTentOverwinterCompatible() || this.isZcashOverwinterCompatible()) {
     var mask = (this.overwintered ? 1 : 0)
     bufferWriter.writeInt32(this.version | (mask << 31))  // Set overwinter bit
     bufferWriter.writeUInt32(this.versionGroupId)
@@ -1049,11 +1052,11 @@ Transaction.prototype.__toBuffer = function (buffer, initialOffset, __allowWitne
 
   bufferWriter.writeUInt32(this.locktime)
 
-  if (this.isOverwinterCompatible()) {
+  if (this.isTentOverwinterCompatible() || this.isZcashOverwinterCompatible()) {
     bufferWriter.writeUInt32(this.expiryHeight)
   }
 
-  if (this.isSaplingCompatible()) {
+  if (this.isTentSaplingCompatible() || this.isZcashSaplingCompatible()) {
     bufferWriter.writeUInt64(this.valueBalance)
 
     bufferWriter.writeVarInt(this.vShieldedSpend.length)
@@ -1080,7 +1083,7 @@ Transaction.prototype.__toBuffer = function (buffer, initialOffset, __allowWitne
     })
   }
 
-  if (this.supportsJoinSplits()) {
+  if (this.supportsTentJoinSplits() || this.supportsZcashJoinSplits()) {
     bufferWriter.writeVarInt(this.joinsplits.length)
     this.joinsplits.forEach(function (joinsplit) {
       bufferWriter.writeUInt64(joinsplit.vpubOld)
@@ -1097,7 +1100,7 @@ Transaction.prototype.__toBuffer = function (buffer, initialOffset, __allowWitne
       joinsplit.macs.forEach(function (nullifier) {
         bufferWriter.writeSlice(nullifier)
       })
-      if (this.isSaplingCompatible()) {
+      if (this.isTentSaplingCompatible() || this.isZcashSaplingCompatible()) {
         bufferWriter.writeSlice(joinsplit.zkproof.sA)
         bufferWriter.writeSlice(joinsplit.zkproof.sB)
         bufferWriter.writeSlice(joinsplit.zkproof.sC)
@@ -1121,7 +1124,7 @@ Transaction.prototype.__toBuffer = function (buffer, initialOffset, __allowWitne
     }
   }
 
-  if (this.isSaplingCompatible() && this.vShieldedSpend.length + this.vShieldedOutput.length > 0) {
+  if ((this.isTentSaplingCompatible() || this.isZcashSaplingCompatible()) && this.vShieldedSpend.length + this.vShieldedOutput.length > 0) {
     bufferWriter.writeSlice(this.bindingSig)
   }
 
