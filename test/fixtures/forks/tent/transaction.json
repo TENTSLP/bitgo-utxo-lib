@@ -220,7 +220,7 @@
         "type": 33836424,
         "version": 3,
         "branchId": "0x74736554",
-        "hash": "967f00c292b9af74c7e770bd393f80b6a6d1c50ae639356dd66d29020d5904ed",
+        "hash": "3bf176654bb7387b660be1199eea432f2fa70f589038fa3dd4e7b8ba2f5bd212",
         "value": 0
       }, {
         "description": "version 3 transaction (3:2) from Tent test data",
@@ -230,7 +230,7 @@
         "type": 623524693,
         "version": 3,
         "branchId": "0x76B809BB",
-        "hash": "44db5f1c43284937e6bb2b25790c06fb2f22b5a25062e8455b964dbbcd9f64de",
+        "hash": "1726c57a130be19cb1a43e0661d3c06155a9016331500605de30a103f9aa4161",
         "value": 0
       }, {
         "description": "version 3 transaction (4:3) from Tent test data",
@@ -240,7 +240,7 @@
         "type": 1844639429,
         "version": 3,
         "branchId": "0x76B809BB",
-        "hash": "ed51c8db5ba2accabb1d8a718ecc0e61a55ebdf4a2a2aaa3999593e6c207f9c1",
+        "hash": "5c316504020e893861bdaa60619447b673fcb90b4c34c8b4ea89d9a880e6959a",
         "value": 0
       }
     ],
