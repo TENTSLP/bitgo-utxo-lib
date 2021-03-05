@@ -12,7 +12,7 @@ describe('Block (tent)', function () {
   describe('fromBuffer/fromHex', function () {
     fixtures.valid.forEach(function (f) {
       it('imports ' + f.description, function () {
-        var block = Block.fromHex(f.hex, networks.zcashTest)
+        var block = Block.fromHex(f.hex, networks.tentTest)
 
         assert.strictEqual(block.version, f.version)
         assert.strictEqual(block.prevHash.reverse().toString('hex'), f.prevHash)
@@ -45,7 +45,7 @@ describe('Block (tent)', function () {
       var block
 
       beforeEach(function () {
-        block = Block.fromHex(f.hex, networks.zcashTest)
+        block = Block.fromHex(f.hex, networks.tentTest)
       })
 
       it('exports ' + f.description, function () {
@@ -60,7 +60,7 @@ describe('Block (tent)', function () {
       var block
 
       beforeEach(function () {
-        block = Block.fromHex(f.hex, networks.zcashTest)
+        block = Block.fromHex(f.hex, networks.tentTest)
       })
 
       it('returns ' + f.id + ' for ' + f.description, function () {
@@ -75,7 +75,7 @@ describe('Block (tent)', function () {
       var block
 
       beforeEach(function () {
-        block = Block.fromHex(f.hex, networks.zcashTest)
+        block = Block.fromHex(f.hex, networks.tentTest)
       })
 
       it('returns UTC date of ' + f.id, function () {
@@ -93,7 +93,7 @@ describe('Block (tent)', function () {
       var block
 
       beforeEach(function () {
-        block = Block.fromHex(f.hex, networks.zcashTest)
+        block = Block.fromHex(f.hex, networks.tentTest)
       })
 
       it('returns ' + f.merkleRoot + ' for ' + f.id, function () {
@@ -109,10 +109,10 @@ describe('Block (tent)', function () {
       var block
 
       beforeEach(function () {
-        block = Block.fromHex(f.hex, networks.zcashTest)
+        block = Block.fromHex(f.hex, networks.tentTest)
       })
 
-      it('Zcash returns ' + f.valid + ' for ' + f.id, function () {
+      it('Tent returns ' + f.valid + ' for ' + f.id, function () {
         assert.strictEqual(block.checkMerkleRoot(), true)
       })
     })
@@ -123,10 +123,10 @@ describe('Block (tent)', function () {
       var block
 
       beforeEach(function () {
-        block = Block.fromHex(f.hex, networks.zcashTest)
+        block = Block.fromHex(f.hex, networks.tentTest)
       })
 
-      it('Zcash returns ' + f.valid + ' for ' + f.id, function () {
+      it('Tent returns ' + f.valid + ' for ' + f.id, function () {
         assert.strictEqual(block.checkProofOfWork(), f.valid)
       })
     })

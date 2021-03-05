@@ -4,7 +4,7 @@ var assert = require('assert')
 var baddress = require('../src/address')
 var networks = require('../src/networks')
 var bscript = require('../src/script')
-var fixtures = require('./fixtures').combine('address', ['litecoin', 'zcash'])
+var fixtures = require('./fixtures').combine('address', ['litecoin', 'tent', 'zcash'])
 
 describe('address', function () {
   describe('fromBase58Check', function () {

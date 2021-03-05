@@ -1,6 +1,6 @@
 /* global describe, it */
 const assert = require('assert')
-const { ZcashBufferReader } = require('../../../src/forks/zcash/bufferutils')
+const { TentBufferReader } = require('../../../src/forks/tent/bufferutils')
 
 describe('ZcashBufferReader', function () {
   // copied from test/bufferutils.js
@@ -33,7 +33,7 @@ describe('ZcashBufferReader', function () {
       [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff],
       [0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0xe0, 0xff]
     ])
-    const bufferReader = new ZcashBufferReader(buffer)
+    const bufferReader = new TentBufferReader(buffer)
     values.forEach((value) => {
       const expectedOffset = bufferReader.offset + 8
       const val = bufferReader.readInt64()

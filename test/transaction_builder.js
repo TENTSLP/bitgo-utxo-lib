@@ -13,7 +13,7 @@ var Transaction = require('../src/transaction')
 var TransactionBuilder = require('../src/transaction_builder')
 var NETWORKS = require('../src/networks')
 
-var fixtures = require('./fixtures').combine('transaction_builder', ['dash', 'zcash', 'tent'])
+var fixtures = require('./fixtures').combine('transaction_builder', ['dash', 'tent', 'zcash'])
 
 function construct (f, dontSign) {
   var network = NETWORKS[f.network]
@@ -157,7 +157,7 @@ describe('TransactionBuilder', function () {
     })
   })
 
-  var networksToTest = ['bitcoin', 'bitcoincash', 'bitcoingold', 'bitcoinsv', 'dash', 'litecoin', 'zcash', 'tent']
+  var networksToTest = ['bitcoin', 'bitcoincash', 'bitcoingold', 'bitcoinsv', 'dash', 'litecoin', 'tent', 'zcash']
   networksToTest.forEach(function (network) {
     describe('addInput for ' + network, function () {
       var testNetwork = NETWORKS[network]

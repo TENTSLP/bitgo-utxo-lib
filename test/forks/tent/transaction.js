@@ -7,13 +7,13 @@ const {
   Transaction
 } = require('../../../src')
 
-const fixtures = require('../../fixtures/forks/zcash/transaction')
+const fixtures = require('../../fixtures/forks/tent/transaction')
 
-describe('Transaction (zcash)', function () {
+describe('Transaction (tent)', function () {
   describe('fromBuffer/fromHex', function () {
     fixtures.valid.forEach(function (testData) {
       it('imports ' + testData.description, function () {
-        const tx = Transaction.fromHex(testData.hex, networks.zcashTest)
+        const tx = Transaction.fromHex(testData.hex, networks.tentTest)
         assert.equal(tx.version, testData.version)
         assert.equal(tx.versionGroupId, parseInt(testData.versionGroupId, 16))
         assert.equal(tx.overwintered, testData.overwintered)
@@ -45,7 +45,7 @@ describe('Transaction (zcash)', function () {
 
     fixtures.valid.forEach(function (testData) {
       it('exports ' + testData.description, function () {
-        const tx = Transaction.fromHex(testData.hex, networks.zcashTest)
+        const tx = Transaction.fromHex(testData.hex, networks.tentTest)
         const hexTx = tx.toHex()
         assert.equal(testData.hex, hexTx)
       })
@@ -53,17 +53,17 @@ describe('Transaction (zcash)', function () {
 
     fixtures.valid.forEach(function (testData) {
       it('clone ' + testData.description, function () {
-        const tx = Transaction.fromHex(testData.hex, networks.zcashTest)
+        const tx = Transaction.fromHex(testData.hex, networks.tentTest)
         const clonedTx = tx.clone()
         assert.equal(clonedTx.toHex(), testData.hex)
       })
     })
   })
 
-  describe('hashForZcashSignature', function () {
-    fixtures.hashForZcashSignature.valid.forEach(function (testData) {
+  describe('hashForTentSignature', function () {
+    fixtures.hashForTentSignature.valid.forEach(function (testData) {
       it('should return ' + testData.hash + ' for ' + testData.description, function () {
-        var network = networks.zcash
+        var network = networks.tent
         network.consensusBranchId[testData.version] = parseInt(testData.branchId, 16)
         var tx = Transaction.fromHex(testData.txHex, network)
         var script = Buffer.from(testData.script, 'hex')
@@ -72,18 +72,18 @@ describe('Transaction (zcash)', function () {
         hash = hash.toString('hex')
 
         assert.strictEqual(
-          tx.hashForZcashSignature(testData.inIndex, script, testData.value, testData.type).toString('hex'),
+          tx.hashForTentSignature(testData.inIndex, script, testData.value, testData.type).toString('hex'),
           hash)
       })
     })
 
-    fixtures.hashForZcashSignature.invalid.forEach(function (testData) {
+    fixtures.hashForTentSignature.invalid.forEach(function (testData) {
       it('should throw on ' + testData.description, function () {
-        var tx = Transaction.fromHex(testData.txHex, networks.zcashTest)
+        var tx = Transaction.fromHex(testData.txHex, networks.tentTest)
         var script = Buffer.from(testData.script, 'hex')
 
         assert.throws(function () {
-          tx.hashForZcashSignature(testData.inIndex, script, testData.value, testData.type)
+          tx.hashForTentSignature(testData.inIndex, script, testData.value, testData.type)
         }, new RegExp(testData.exception))
       })
     })

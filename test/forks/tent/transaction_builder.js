@@ -7,12 +7,12 @@ const {
   TransactionBuilder
 } = require('../../../src')
 
-const fixtures = require('../../fixtures/forks/zcash/transaction_builder_custom')
+const fixtures = require('../../fixtures/forks/tent/transaction_builder_custom')
 
-describe('TransactionBuilder (zcash)', function () {
+describe('TransactionBuilder (tent)', function () {
   fixtures.valid.fromTransaction.forEach(function (testData) {
     it('returns TransactionBuilder, with ' + testData.description, function () {
-      var network = networks.zcash
+      var network = networks.tent
       var tx = Transaction.fromHex(testData.hex, network)
       var txb = TransactionBuilder.fromTransaction(tx, network)
 
@@ -30,9 +30,9 @@ describe('TransactionBuilder (zcash)', function () {
 
     it('throws if transaction builder network is incompatible for ' + testData.description, function () {
       var errorMessage = 'This transaction is incompatible with the transaction builder'
-      var tx = Transaction.fromHex(testData.hex, networks.zcash)
+      var tx = Transaction.fromHex(testData.hex, networks.tent)
 
-      // Zcash transaction but different network
+      // Tent transaction but different network
       assert.throws(function () {
         TransactionBuilder.fromTransaction(tx)
       }, new RegExp(errorMessage))
