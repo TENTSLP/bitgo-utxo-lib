@@ -8,7 +8,7 @@
 
 
 > @bitgo/utxo-lib@1.9.1 coverage /home/ciripel/Programe/TENTSLP/bitgo-utxo-lib
-> BITGO_UTXO_LIB_TEST_EXPECTED_COUNT=3660 nyc --check-coverage --branches 90 --functions 90 mocha --recursive
+> BITGO_UTXO_LIB_TEST_EXPECTED_COUNT=3668 nyc --check-coverage --branches 90 --functions 90 mocha --recursive
 
 
 
@@ -1140,7 +1140,7 @@
       ✓ produces the expected k values for 2SaVPvhxkAPrayIVKcsoQO5DKA8Uv5X/esZFlf+y if k wasn't suitable
       ✓ produces the expected k values for 00A0OwO2THi7j5Z/jp0FmN6nn7N/DQd6eBnCS+/b if k wasn't suitable
     sign
-      ✓ produces a deterministic signature for "Everything should be made as simple as possible, but not simpler." (72ms)
+      ✓ produces a deterministic signature for "Everything should be made as simple as possible, but not simpler." (80ms)
       ✓ produces a deterministic signature for "Equations are more important to me, because politics is for the present, but an equation is something for eternity."
       ✓ produces a deterministic signature for "Not only is the Universe stranger than we think, it is stranger than we can think."
       ✓ produces a deterministic signature for "How wonderful that we have met with a paradox. Now we have some hope of making progress."
@@ -1149,12 +1149,12 @@
       ✓ produces a deterministic signature for "The question of whether computers can think is like the question of whether submarines can swim."
       ✓ should sign with low S value
     verify
-      ✓ verifies a valid signature for "Everything should be made as simple as possible, but not simpler." (43ms)
+      ✓ verifies a valid signature for "Everything should be made as simple as possible, but not simpler." (39ms)
       ✓ verifies a valid signature for "Equations are more important to me, because politics is for the present, but an equation is something for eternity."
       ✓ verifies a valid signature for "Not only is the Universe stranger than we think, it is stranger than we can think."
       ✓ verifies a valid signature for "How wonderful that we have met with a paradox. Now we have some hope of making progress."
-      ✓ verifies a valid signature for "Computer science is no more about computers than astronomy is about telescopes." (52ms)
-      ✓ verifies a valid signature for "...if you aren't, at any given time, scandalized by code you wrote five or even three years ago, you're not learning anywhere near enough"
+      ✓ verifies a valid signature for "Computer science is no more about computers than astronomy is about telescopes." (53ms)
+      ✓ verifies a valid signature for "...if you aren't, at any given time, scandalized by code you wrote five or even three years ago, you're not learning anywhere near enough" (40ms)
       ✓ verifies a valid signature for "The question of whether computers can think is like the question of whether submarines can swim."
       ✓ fails to verify with The wrong signature
       ✓ fails to verify with Invalid r value (< 0)
@@ -1251,7 +1251,7 @@
     ecdsa wrappers
       signing
         ✓ wraps ecdsa.sign
-        ✓ wraps fastcurve.sign
+        ✓ wraps fastcurve.sign (42ms)
         ✓ throws if no private key is found
       verify
         ✓ wraps ecdsa.verify
@@ -1710,7 +1710,7 @@
     ✓ can generate a SegWit address (via P2SH)
     ✓ can generate a SegWit 3-of-4 multisig address
     ✓ can generate a SegWit 2-of-2 multisig address (via P2SH)
-    ✓ can support the retrieval of transactions for an address (via 3PBP) (165ms)
+    ✓ can support the retrieval of transactions for an address (via 3PBP) (209ms)
     ✓ can generate a Testnet address
     ✓ can generate a Litecoin address
 
@@ -1732,11 +1732,11 @@
     ✓ can recover a BIP32 parent private key from the parent public key, and a derived, non-hardened child private key
 
   bitcoinjs-lib (crypto)
-    ✓ can generate a single-key stealth address (52ms)
-    ✓ can generate a single-key stealth address (randomly) (50ms)
-    ✓ can recover parent recipient.d, if a derived private key is leaked [and nonce was revealed] (64ms)
-    ✓ can generate a dual-key stealth address (79ms)
-    ✓ can generate a dual-key stealth address (randomly) (86ms)
+    ✓ can generate a single-key stealth address (49ms)
+    ✓ can generate a single-key stealth address (randomly) (56ms)
+    ✓ can recover parent recipient.d, if a derived private key is leaked [and nonce was revealed] (61ms)
+    ✓ can generate a dual-key stealth address (74ms)
+    ✓ can generate a dual-key stealth address (randomly) (88ms)
 
   bitcoinjs-lib (transactions)
     ✓ can create a 1-to-1 Transaction
@@ -3100,7 +3100,7 @@
       ✓ -1 returns 81
 
   Test Suite
-    45) has expected count
+    ✓ has expected count
 
   script-templates
     classifyInput
@@ -3901,8 +3901,8 @@
       ✓ P2SH 2-of-3 multisig, signed by key 1 and 2 (Dash) network=dash
       ✓ P2SH 2-of-3 multisig, signed by key 1 and 2 (Dash) - brodcasted network=dash
       ✓ P2SH 2-of-3 multisig, signed by key 1 and 2 (Dash testnet) network=dashTest
-      46) Tent Sapling P2SH 2-of-3 multisig, signed by key 3 and 1 network=tentTest
-      47) Tent P2SH 2-of-3 multisig, signed by key 3 and 1 network=tentTest
+      45) Tent Sapling P2SH 2-of-3 multisig, signed by key 3 and 1 network=tentTest
+      46) Tent P2SH 2-of-3 multisig, signed by key 3 and 1 network=tentTest
       ✓ Zcash Sapling P2SH 2-of-3 multisig, signed by key 3 and 1 network=zcashTest
       ✓ Zcash P2SH 2-of-3 multisig, signed by key 3 and 1 network=zcashTest
     various edge case
@@ -3928,9 +3928,9 @@
       ✓ returns false for valid for 2100000100000000
 
 
-  3602 passing (6s)
+  3603 passing (7s)
   7 pending
-  47 failing
+  46 failing
 
   1) address
        fromBase58Check
@@ -4476,22 +4476,7 @@
       at Context.<anonymous> (test/forks/tent/transaction.js:82:30)
       at processImmediate (internal/timers.js:461:21)
 
-  45) Test Suite
-       has expected count:
-
-      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
-
-3668 !== 3660
-
-      + expected - actual
-
-      -3668
-      +3660
-      
-      at Context.<anonymous> (test/suitecheck.js:34:14)
-      at processImmediate (internal/timers.js:461:21)
-
-  46) TransactionBuilder
+  45) TransactionBuilder
        multisig
          Tent Sapling P2SH 2-of-3 multisig, signed by key 3 and 1 network=tentTest:
      Error: expiryHeight can only be set for Zcash or Tent starting at overwinter version. Current network coin: tent, version: 4
@@ -4500,7 +4485,7 @@
       at Context.<anonymous> (test/transaction_builder.js:458:19)
       at processImmediate (internal/timers.js:461:21)
 
-  47) TransactionBuilder
+  46) TransactionBuilder
        multisig
          Tent P2SH 2-of-3 multisig, signed by key 3 and 1 network=tentTest:
      Error: expiryHeight can only be set for Zcash or Tent starting at overwinter version. Current network coin: tent, version: 3
