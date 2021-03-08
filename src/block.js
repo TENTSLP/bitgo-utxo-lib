@@ -28,7 +28,8 @@ function Block (network) {
 }
 
 Block.HEADER_BYTE_SIZE = 80
-Block.ZCASH_TENT_HEADER_BYTE_SIZE = 1487
+Block.TENT_HEADER_BYTE_SIZE = 1487
+Block.ZCASH_HEADER_BYTE_SIZE = 1487
 
 Block.fromBuffer = function (buffer, network) {
   if (buffer.length < 80) throw new Error('Buffer too small (< 80 bytes)')
@@ -74,11 +75,21 @@ Block.fromBuffer = function (buffer, network) {
 }
 
 Block.prototype.byteLength = function (headersOnly) {
-  if (coins.isZcash(this.network) || coins.isTent(this.network)) {
+  if (coins.isTent(this.network)) {
     if (headersOnly) {
-      return Block.ZCASH_TENT_HEADER_BYTE_SIZE
+      return Block.TENT_HEADER_BYTE_SIZE
     }
-    return Block.ZCASH_TENT_HEADER_BYTE_SIZE +
+    return Block.TENT_HEADER_BYTE_SIZE +
+      varuint.encodingLength(this.transactions.length) + this.transactions.reduce(function (a, x) {
+        return a + x.byteLength()
+      }, 0)
+  }
+
+  if (coins.isZcash(this.network)) {
+    if (headersOnly) {
+      return Block.ZCASH_HEADER_BYTE_SIZE
+    }
+    return Block.ZCASH_HEADER_BYTE_SIZE +
       varuint.encodingLength(this.transactions.length) + this.transactions.reduce(function (a, x) {
         return a + x.byteLength()
       }, 0)
