@@ -376,7 +376,7 @@ Transaction.prototype.tentTransactionByteLength = function () {
   }
   var byteLength = 0
   byteLength += 4  // Header
-  if (this.isTentOverwinterCompatible() || this.isZcashOverwinterCompatible()) {
+  if (this.isTentOverwinterCompatible()) {
     byteLength += 4  // nVersionGroupId
   }
   byteLength += varuint.encodingLength(this.ins.length)  // tx_in_count
@@ -384,18 +384,18 @@ Transaction.prototype.tentTransactionByteLength = function () {
   byteLength += varuint.encodingLength(this.outs.length)  // tx_out_count
   byteLength += this.outs.reduce(function (sum, output) { return sum + 8 + varSliceSize(output.script) }, 0)  // tx_out
   byteLength += 4  // lock_time
-  if (this.isTentOverwinterCompatible() || this.isZcashOverwinterCompatible()) {
+  if (this.isTentOverwinterCompatible()) {
     byteLength += 4  // nExpiryHeight
   }
-  if (this.isTentSaplingCompatible() || this.isZcashSaplingCompatible()) {
+  if (this.isTentSaplingCompatible()) {
     byteLength += 8  // valueBalance
     byteLength += this.getShieldedSpendByteLength()
     byteLength += this.getShieldedOutputByteLength()
   }
-  if (this.supportsTentJoinSplits() || this.supportsZcashJoinSplits()) {
+  if (this.supportsTentJoinSplits()) {
     byteLength += this.getJoinSplitByteLength()
   }
-  if ((this.isTentSaplingCompatible() || this.isZcashSaplingCompatible()) &&
+  if (this.isTentSaplingCompatible() &&
     this.vShieldedSpend.length + this.vShieldedOutput.length > 0) {
     byteLength += 64  // bindingSig
   }
@@ -408,7 +408,7 @@ Transaction.prototype.zcashTransactionByteLength = function () {
   }
   var byteLength = 0
   byteLength += 4  // Header
-  if (this.isTentOverwinterCompatible() || this.isZcashOverwinterCompatible()) {
+  if (this.isZcashOverwinterCompatible()) {
     byteLength += 4  // nVersionGroupId
   }
   byteLength += varuint.encodingLength(this.ins.length)  // tx_in_count
@@ -416,18 +416,18 @@ Transaction.prototype.zcashTransactionByteLength = function () {
   byteLength += varuint.encodingLength(this.outs.length)  // tx_out_count
   byteLength += this.outs.reduce(function (sum, output) { return sum + 8 + varSliceSize(output.script) }, 0)  // tx_out
   byteLength += 4  // lock_time
-  if (this.isTentOverwinterCompatible() || this.isZcashOverwinterCompatible()) {
+  if (this.isZcashOverwinterCompatible()) {
     byteLength += 4  // nExpiryHeight
   }
-  if (this.isTentSaplingCompatible() || this.isZcashSaplingCompatible()) {
+  if (this.isZcashSaplingCompatible()) {
     byteLength += 8  // valueBalance
     byteLength += this.getShieldedSpendByteLength()
     byteLength += this.getShieldedOutputByteLength()
   }
-  if (this.supportsTentJoinSplits() || this.supportsZcashJoinSplits()) {
+  if (this.supportsZcashJoinSplits()) {
     byteLength += this.getJoinSplitByteLength()
   }
-  if ((this.isTentSaplingCompatible() || this.isZcashSaplingCompatible()) &&
+  if (this.isZcashSaplingCompatible() &&
     this.vShieldedSpend.length + this.vShieldedOutput.length > 0) {
     byteLength += 64  // bindingSig
   }
