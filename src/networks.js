@@ -76,14 +76,14 @@ module.exports = {
     coin: coins.BSV
   },
   zcash: {
-    messagePrefix: '\x18ZCash Signed Message:\n',
+    messagePrefix: '\x18Snowgem Signed Message:\n',
     bech32: 'bc',
     bip32: {
       public: 0x0488b21e,
       private: 0x0488ade4
     },
-    pubKeyHash: 0x1cb8,
-    scriptHash: 0x1cbd,
+    pubKeyHash: 0x1c28,
+    scriptHash: 0x1c2d,
     wif: 0x80,
     // This parameter was introduced in version 3 to allow soft forks, for version 1 and 2 transactions we add a
     // dummy value.
@@ -94,7 +94,7 @@ module.exports = {
       // 4: 0x76b809bb (old Sapling branch id). Blossom branch id becomes effective after block 653600
       // 4: 0x2bb40e60
       // 4: 0xf5b9230b (Heartwood branch id, see https://zips.z.cash/zip-0250)
-      4: 0xe9ff75a6 // (Canopy branch id, see https://zips.z.cash/zip-0251)
+      4: 0x76b809bb // (Canopy branch id, see https://zips.z.cash/zip-0251)
     },
     coin: coins.ZEC
   },
